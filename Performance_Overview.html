@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>    
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        
+        <!-- Tabler CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/@tabler/core@latest/dist/css/tabler.min.css" rel="stylesheet">
+        
+        <!-- DataTables CSS -->
+        <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+        
+        <!-- Chart.js -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">    
+    <!-- The Clearmin Dashboard CSS Libraries -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <link rel="stylesheet" type="text/css" href="Sources/Clearmin_Dashboard_All.css">
+
+
+     <!-- JQuery Datapiker -->
+    <script src="Sources/datepiker/jquery.js"></script>
+    <script src="Sources/datepiker/jquery.datetimepicker.full.min.js"></script>
+    <link rel="stylesheet" href="Sources/datepiker/jquery.datetimepicker.min.css">
+
+    <style>
+        /* Custom styles for chart and status alignment*/
+        .page {
+          display: flex;
+          align-items: center; /* Vertically align status and chart */
+          padding-top: 20px; /* add padding from top of the page */
+          }
+
+          .status-chart-container .card{
+            display:flex;
+          }
+         .status-chart-container .card .card-body{
+            display:flex;
+         }
+        #task-status-chart {
+            max-height: 250px; /* Adjust for desired chart height */
+        }
+
+         .table-responsive{
+            max-height:400px;
+            overflow-y:auto;
+         }
+
+    </style>
+
+   
+    <title>Performance Overview</title>
+    </head>
+
+
+<body class="cm-no-transition cm-2-navbar cm-menu-toggled">
+   
+   
+    <div id="cm-menu">
+        <nav class="cm-navbar cm-navbar-turquoise">
+            <div class="cm-flex"><a href="index.html" class="cm-logo"></a></div>
+            <div class="btn btn-turquoise md-menu-white" data-toggle="cm-menu"></div>
+        </nav>
+        <div id="cm-menu-content">
+            <div id="cm-menu-items-wrapper">
+                <div id="cm-menu-scroller">
+                    <ul class="cm-menu-items">
+                        <li class="cm-submenu">
+                            <a class="sf-house">Main Dashboard <span class="caret"></span></a>
+                            <ul>
+                                <li><a href="Main_Overview.html">Main Overview</a></li>
+                                <li><a href="Main_Gantt.html" >Main Gantt</a></li>
+                                <li><a href="Main_Grid.html">Main Grid</a></li>
+                                <li><a href="Main_Overview.html">Main Sheet</a></li>
+                                <li><a href="Main_PowerBi.html">Main PowerBi</a></li>
+                            </ul>
+                        </li>
+                        <li class="cm-submenu" class="active">
+                            <a class="sf-dashboard">Performane Dashboard <span class="caret"></span></a>
+                            <ul>
+                                <li><a href="Performance_Overview.html" class="active">Performane Overview</a></li>
+                                <li><a href="Performance_Gantt.html" >Performane Gantt</a></li>
+                                <li><a href="Performance_Grid.html">Performane Grid</a></li>
+                            </ul>
+                        </li>
+                        <li class="cm-submenu"><a href="#" class="sf-box-full">Documentation Dashboard <span class="caret"></span></a>
+                            <ul>
+                                <li><a href="Documentation_Overview.html">Documentation Overview</a></li>
+                                <li><a href="Documentation_Gantt.html" class="active">Documentation Gantt</a></li>
+                                <li><a href="Documentation_Grid.html">Documentation Grid</a></li>
+                            </ul>   
+                        </li>
+                        <li class="cm-submenu"><a href="#" class="sf-money">Finance Dashboard<span class="caret"></span></a>
+                            <ul>
+                                <li><a href="Finance_Overview.html">Finance Overview</a></li>
+                                <li><a href="Finance_Gantt.html" class="active">Finance Gantt</a></li>
+                                <li><a href="Finance_Grid .html">Finance Grid</a></li>
+                                <li><a href="Finance_Tabulator.html">Finance Tabulator</a></li>
+                                <li><a href="Finance_PR_PO_Tracker.html" class="active">PR/PO Tracker</a></li>
+                                <li><a href="Finance_Expenses.html">Expenses Report</a></li>
+                                <li><a href="Finance_Trial_Balance.html">Trial Balance</a></li>
+                            </ul>
+                        </li>
+                        <li class="cm-submenu"><a href="#" class="sf-monitor">MEAL Dashboard<span class="caret"></span></a>
+                            <ul>
+                                <li><a href="MEAL_Overview.html">MEAL Overview</a></li>
+                                <li><a href="MEAL_Gantt.html" class="active">MEAL Gantt</a></li>
+                                <li><a href="MEAL_Grid.html">MEAL Grid</a></li>
+                            </ul>
+                        </li>
+                        <li class="cm-submenu"><a href="#" class="sf-profile-group">HR Dashboard<span class="caret"></span></a>
+                            <ul>
+                                <li><a href="HR_Overview.html">HR Overview</a></li>
+                                <li><a href="HR_Gantt.html" class="active">HR Gantt</a></li>
+                                <li><a href="HR_Grid.html">HR Grid</a></li>
+                            </ul>
+                        </li>                           
+                        <li><a href="ChatWithAI.html" class="sf-terminal">Chat with AI</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <header id="cm-header">
+
+            <nav class="cm-navbar cm-navbar-default cm-navbar-slideup">
+                <div class="cm-flex">
+                    <div class="nav-tabs-container">
+                        <ul class="nav nav-tabs">
+                            <li style="border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5" id="OverviewPage" class="active"><a  href="Performance_Overview.html">Performance Overview</a></li>
+                            <li style="border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5" id="GanttPage" ><a  href="Performance_Gantt.html">Performance Gantt</a></li>
+                            <li style="border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5" id="GridPage"><a  href="Performance_Grid.html">Performance Grid</a></li>
+                        </ul>
+                    </div>
+                </div>
+                               
+       
+                <div class="pull-right" style="border-left:1px solid #e5e5e5"><a title="Edit Settings" class="btn btn-default btn-light md-settings" data-bs-toggle="offcanvas" href="#settingbtn" role="button" aria-controls="offcanvasRight"></a></div>
+            </nav>
+
+
+            
+        </header>
+
+
+
+
+        <div id="global">
+          
+            <div class="content">
+                <div class="page">
+            
+                    <div class="page-wrapper">
+                        <div class="page-content">
+                            <div class="container-xl">
+                                <!-- Stats Cards -->
+                                <div class="row row-deck row-cards">
+                                    <div class="col-sm-6 col-lg-2">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="subheader">Total Tasks</div>
+                                                </div>
+                                                <div class="h1 mb-3" id="totalTasks">0</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-lg-2">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="subheader">Not Started</div>
+                                                </div>
+                                                <div class="h1 mb-3" id="notStarted">0</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-lg-2">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="subheader">In Progress</div>
+                                                </div>
+                                                <div class="h1 mb-3" id="inProgress">0</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-lg-2">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="subheader">Done</div>
+                                                </div>
+                                                <div class="h1 mb-3" id="done">0</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-lg-2">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="subheader">Canceled</div>
+                                                </div>
+                                                <div class="h1 mb-3" id="canceled">0</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 col-lg-2">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="subheader">Failed</div>
+                                                </div>
+                                                <div class="h1 mb-3" id="failed">0</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+            
+                                <!-- Charts -->
+                                <div class="row row-deck row-cards mt-3">
+                                    <div class="col-lg-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h3 class="card-title">Priority Distribution</h3>
+                                            </div>
+                                            <div class="card-body">
+                                                <canvas id="priorityChart"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h3 class="card-title">Implementation Status</h3>
+                                            </div>
+                                            <div class="card-body">
+                                                <canvas id="statusChart"></canvas>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+            
+                                <!-- Filters -->
+                                <div class="row mt-3">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <div class="row g-2">
+                                                    <div class="col-md-4">
+                                                        <select id="statusFilter" class="form-select">
+                                                            <option value="">All Statuses</option>
+                                                            <option>Not Started</option>
+                                                            <option>In Progress</option>
+                                                            <option>Done</option>
+                                                            <option>Canceled</option>
+                                                            <option>Failed</option>
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <select id="workerFilter" class="form-select">
+                                                            <option value="">All Workers</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+            
+                                <!-- Data Table -->
+                                <div class="card mt-3">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Task Details</h3>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table id="tasksTable" class="table table-vcenter table-mobile-md card-table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>WBSCode</th>
+                                                        <th>Task</th>
+                                                        <th>Priority</th>
+                                                        <th>Progress</th>
+                                                        <th>Start Date</th>
+                                                        <th>End Date</th>
+                                                        <th>Status</th>
+                                                        <th>Workers</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+
+
+</div>
+
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/@tabler/core@latest/dist/js/tabler.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+
+
+    <!-- The Clearmin Dashboard JavaScript Libraries -->
+        <script src="Sources/Clearmin_Dashboard_All.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+   
+   
+  
+        <script>
+            document.addEventListener('DOMContentLoaded', async function() {
+                // Fetch data
+                const response = await fetch('https://fir-slickgrid-app-default-rtdb.firebaseio.com/tasks.json');
+                const tasks = await response.json();
+                const taskList = Object.values(tasks);
+        
+                // Update stats
+                document.getElementById('totalTasks').textContent = taskList.length;
+                document.getElementById('notStarted').textContent = taskList.filter(t => t.implmentaion_status === 'Not Started').length;
+                document.getElementById('inProgress').textContent = taskList.filter(t => t.implmentaion_status === 'In Progress').length;
+                document.getElementById('done').textContent = taskList.filter(t => t.implmentaion_status === 'Done').length;
+                document.getElementById('canceled').textContent = taskList.filter(t => t.implmentaion_status === 'Canceled').length;
+                document.getElementById('failed').textContent = taskList.filter(t => t.implmentaion_status === 'Failed').length;
+        
+                // Initialize charts
+                new Chart(document.getElementById('priorityChart').getContext('2d'), {
+                    type: 'pie',
+                    data: getPriorityData(taskList),
+                    options: { responsive: true }
+                });
+        
+                new Chart(document.getElementById('statusChart').getContext('2d'), {
+                    type: 'doughnut',
+                    data: getImplementationStatusData(taskList),
+                    options: { responsive: true }
+                });
+        
+                // Initialize DataTable with proper data mapping
+                const table = $('#tasksTable').DataTable({
+                    data: taskList,
+                    columns: [
+                        { 
+                            data: 'WBS_Code',
+                            render: function(data, type, row) {
+                                return data || 'N/A'; // Handle missing wbscode
+                            }
+                        },
+                        { 
+                            data: 'text',
+                            render: function(data, type, row) {
+                                return data || 'No description';
+                            }
+                        },
+                        { 
+                            data: 'priority',
+                            render: function(data, type, row) {
+                                return data || 'Not set';
+                            }
+                        },
+                        { 
+                            data: 'progress',
+                            render: function(data) {
+                                const value = data || 0;
+                                const progress = data * 100;
+                                return `<div class="progress">
+                                          <div class="progress-bar" style="width: ${progress}%">${progress}%</div>
+                                        </div>`;
+                            }
+                        },
+                        { 
+                            data: 'start_date',
+                            render: function(data) {
+                                var intdate = new Date(data);
+                                var year = intdate.getFullYear();
+                                var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+                                var month = months[intdate.getMonth()];
+                                var date = intdate.getDate();
+                                var time = date + ' ' + month + ' ' + year;
+             
+                                return time || '-';
+                            }
+                        },
+                        { 
+                            data: 'end_date',
+                            render: function(data) {
+                                var intdate = new Date(data);
+                                var year = intdate.getFullYear();
+                                var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+                                var month = months[intdate.getMonth()];
+                                var date = intdate.getDate();
+                                var time = date + ' ' + month + ' ' + year;
+             
+                                return time || '-';
+                            }
+                        },
+                        { 
+                            data: 'implmentaion_status',
+                            render: function(data) {
+                                return data || '_';
+                            }
+                        },
+                        { 
+                            data: 'workers',
+                            render: function(data) {
+                                if (!data) return 'Unassigned';
+                                return Array.isArray(data) ? data.join(', ') : data;
+                            }
+                        }
+                    ],
+                    order: [], // Disable initial sorting
+                    ordering: true
+                });
+        
+                // Initialize worker filter
+                const workers = [...new Set(taskList.flatMap(t => {
+                    if (!t.workers) return [];
+                    return Array.isArray(t.workers) ? t.workers : [t.workers];
+                }))];
+                const workerFilter = document.getElementById('workerFilter');
+                workers.forEach(worker => {
+                    if (worker) workerFilter.innerHTML += `<option>${worker}</option>`;
+                });
+        
+                // Filter handlers
+                document.getElementById('statusFilter').addEventListener('change', function() {
+                    table.column(6).search(this.value).draw();
+                });
+        
+                document.getElementById('workerFilter').addEventListener('change', function() {
+                    table.column(7).search(this.value).draw();
+                });
+            });
+        
+            function getPriorityData(tasks) {
+                const priorities = [...new Set(tasks.map(t => t.priority || 'Not set'))];
+                return {
+                    labels: priorities,
+                    datasets: [{
+                        data: priorities.map(p => tasks.filter(t => (t.priority || 'Not set') === p).length),
+                        backgroundColor: ['#206bc4', '#4299e1', '#4263eb', '#ae3ec9', '#ff6384']
+                    }]
+                };
+            }
+        
+            function getImplementationStatusData(tasks) {
+                const statuses = ['Not Started', 'In Progress', 'Done', 'Canceled', 'Failed'];
+                return {
+                    labels: statuses,
+                    datasets: [{
+                        data: statuses.map(s => tasks.filter(t => t.implmentaion_status === s).length),
+                        backgroundColor: ['#868e96', '#ffd43b', '#40c057', '#fa5252', '#7950f2']
+                    }]
+                };
+            }
+        </script>
+       
+   
+   
+   
+    </body>
+</html>

@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">    
+    <!-- The Clearmin Dashboard CSS Libraries -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <link rel="stylesheet" type="text/css" href="Sources/Clearmin_Dashboard_All.css">
+
+    <!-- dhtmlxGantt-GPL Free Version-->  <!-- Lock -->
+    <script src="Sources/pre_gantt.js"></script>
+    <script src="Sources/dhtmlxgantt-GPL-8010.js"></script>
+    <script src="Sources/after_gantt.js"></script>
+
+    
+    <!-- <link rel="stylesheet" href="Sources/dhtmlxgantt-gpl.css">  -->
+    <link rel="stylesheet" href="Sources/dhtmlxgantt-GPL-903.css">
+        <link rel="stylesheet" href="Sources/header_filters.css">
+    <!-- FireBase JS Library -->
+    <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
+
+     <!-- JQuery Datapiker -->
+    <script src="Sources/datepiker/jquery.js"></script>
+    <script src="Sources/datepiker/jquery.datetimepicker.full.min.js"></script>
+    <link rel="stylesheet" href="Sources/datepiker/jquery.datetimepicker.min.css">
+
+    <!-- dhtmlxGantt-GPL Free Version-->  <!-- Lock -->
+    <script src="Sources/suite_GPL_903.js"></script>
+    <!-- <link rel="stylesheet" href="Sources/dhtmlxgantt-gpl.css">  -->
+    <link rel="stylesheet" href="Sources/suite_GPL_903.css">
+
+
+    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-app.js"></script>
+        
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-database.js"></script>
+    <script>
+    firebaseConfigInfo();
+    </script>
+
+<style>
+
+#gantt_here{
+    
+    margin-left: 50px;
+
+} 
+
+
+
+</style>
+
+ <!-- Freeze the WBS & Task -->
+<style>
+	body,
+	html {
+		width: 100%;
+		height: 100%;
+		margin: unset;
+	}
+
+
+	:root {
+		--gantt-frozen-column-scroll-left: 0px;
+		--gantt-frozen-column-resizer-left: 0px;
+	}
+
+  .gantt_cell:nth-child(1),
+	.gantt_grid_head_cell:nth-child(1) {
+		background: rgb(255, 255, 255);
+		position: relative;
+		left: var(--gantt-frozen-column-scroll-left);
+	}
+
+	.gantt_grid_editor_placeholder[data-column-name="wbs"]{
+		left: var(--gantt-frozen-column-scroll-left) !important;
+	}
+
+    .gantt_grid_column_resize_wrap[data-column-index="1"] {
+		left: var(--gantt-frozen-column-resizer-left) !important;
+    }
+
+	.gantt_grid_head_cell:nth-child(1) {
+		z-index: 1;    
+	}
+  
+	.gantt_cell:nth-child(2),
+	.gantt_grid_head_cell:nth-child(2) {
+		background: rgb(255, 255, 255);
+		position: relative;
+		left: var(--gantt-frozen-column-scroll-left);
+	}
+
+	.gantt_grid_editor_placeholder[data-column-name="text"]{
+		left: var(--gantt-frozen-column-scroll-left) !important;
+	}
+
+    .gantt_grid_column_resize_wrap[data-column-index="2"] {
+		left: var(--gantt-frozen-column-resizer-left) !important;
+    }
+
+	.gantt_grid_head_cell:nth-child(2) {
+		z-index: 1;
+  }
+
+
+
+
+
+ /*  The Implemented Dates "Start" */
+ 
+.baseline {
+    position: absolute;
+    border-radius: 2px;
+    opacity: 0.6;
+    margin-top: -7px;
+    height: 12px;
+    background: #ffd180;
+    border: 1px solid rgb(255, 153, 0);
+}
+
+
+.gantt_task_line, .gantt_line_wrapper {
+    margin-top: -9px;
+}
+
+.gantt_side_content {
+    margin-bottom: 7px;
+}
+
+.gantt_task_link .gantt_link_arrow {
+    margin-top: -12px
+}
+
+.gantt_side_content.gantt_right {
+    bottom: 0;
+}
+.dhx_alert__header{
+    height: 10 px;
+    width: 10 px;
+}
+.dhx_widget.dhx_alert.dhx_widget.dhx_alert.dhx_547239261_alert{
+    height: 10 px;
+    width: 10 px;
+}
+
+.baseline_cell_content{
+    margin-top: 21px;
+    height: 16px;
+    width: 100%;
+    
+    background-color: rgba(220, 209, 17, 0.786);
+}
+ 
+
+/* The Implemented Dates "End" */
+
+
+
+ 
+</style>
+
+
+    <title>Performance Gantt</title>
+    </head>
+
+
+<body class="cm-no-transition cm-2-navbar cm-menu-toggled">
+  <div id="cm-menu">
+    <nav class="cm-navbar cm-navbar-turquoise">
+        <div class="cm-flex"><a href="index.html" class="cm-logo"></a></div>
+        <div class="btn btn-turquoise md-menu-white" data-toggle="cm-menu"></div>
+    </nav>
+    <div id="cm-menu-content">
+        <div id="cm-menu-items-wrapper">
+            <div id="cm-menu-scroller">
+                <ul class="cm-menu-items">
+                    <li class="cm-submenu">
+                        <a class="sf-house">Main Dashboard <span class="caret"></span></a>
+                        <ul>
+                            <li><a href="Main_Overview.html">Main Overview</a></li>
+                            <li><a href="Main_Gantt.html" >Main Gantt</a></li>
+                            <li><a href="Main_Grid.html">Main Grid</a></li>
+                            <li><a href="Main_Overview.html">Main Sheet</a></li>
+                            <li><a href="Main_PowerBi.html">Main PowerBi</a></li>
+                        </ul>
+                    </li>
+                    <li class="cm-submenu" class="active">
+                        <a class="sf-dashboard">Performane Dashboard <span class="caret"></span></a>
+                        <ul>
+                            <li><a href="Performance_Overview.html" class="active">Performane Overview</a></li>
+                            <li><a href="Performance_Gantt.html" >Performane Gantt</a></li>
+                            <li><a href="Performance_Grid.html">Performane Grid</a></li>
+                        </ul>
+                    </li>
+                    <li class="cm-submenu"><a href="#" class="sf-box-full">Documentation Dashboard <span class="caret"></span></a>
+                        <ul>
+                            <li><a href="Documentation_Overview.html">Documentation Overview</a></li>
+                            <li><a href="Documentation_Gantt.html" class="active">Documentation Gantt</a></li>
+                            <li><a href="Documentation_Grid.html">Documentation Grid</a></li>
+                        </ul>   
+                    </li>
+                    <li class="cm-submenu"><a href="#" class="sf-money">Finance Dashboard<span class="caret"></span></a>
+                      <ul>
+                          <li><a href="Finance_Overview.html">Finance Overview</a></li>
+                          <li><a href="Finance_Gantt.html" class="active">Finance Gantt</a></li>
+                          <li><a href="Finance_Grid .html">Finance Grid</a></li>
+                          <li><a href="Finance_Tabulator.html">Finance Tabulator</a></li>
+                          <li><a href="Finance_PR_PO_Tracker.html" class="active">PR/PO Tracker</a></li>
+                          <li><a href="Finance_Expenses.html">Expenses Report</a></li>
+                          <li><a href="Finance_Trial_Balance.html">Trial Balance</a></li>
+                      </ul>
+                  </li>
+                    <li class="cm-submenu"><a href="#" class="sf-monitor">MEAL Dashboard<span class="caret"></span></a>
+                        <ul>
+                            <li><a href="MEAL_Overview.html">MEAL Overview</a></li>
+                            <li><a href="MEAL_Gantt.html" class="active">MEAL Gantt</a></li>
+                            <li><a href="MEAL_Grid.html">MEAL Grid</a></li>
+                        </ul>
+                    </li>
+                    <li class="cm-submenu"><a href="#" class="sf-profile-group">HR Dashboard<span class="caret"></span></a>
+                        <ul>
+                            <li><a href="HR_Overview.html">HR Overview</a></li>
+                            <li><a href="HR_Gantt.html" class="active">HR Gantt</a></li>
+                            <li><a href="HR_Grid.html">HR Grid</a></li>
+                        </ul>
+                    </li>                           
+                    <li><a href="ChatWithAI.html" class="sf-terminal">Chat with AI</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <header id="cm-header">
+
+            <nav class="cm-navbar cm-navbar-default cm-navbar-slideup">
+                <div class="cm-flex">
+                    <div class="nav-tabs-container">
+                        <ul class="nav nav-tabs">
+                            <li style="border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5" id="OverviewPage" ><a  href="HR_Overview.html">HR Overview</a></li>
+                            <li style="border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5" id="GanttPage" class="active"><a  href="HR_Gantt.html">HR Gantt</a></li>
+                            <li style="border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5" id="GridPage"><a  href="HR_Grid.html">HR Grid</a></li>
+                        </ul>
+                    </div>
+                </div>
+          
+              
+                         
+
+                <div class="pull-right" style="border-left:1px solid #e5e5e5"><a title="Actions" class="btn btn-default btn-light md-tune" data-bs-toggle="offcanvas" href="#actions" role="button" aria-controls="offcanvasRight" ></a></div>
+                <div class="pull-right" style="border-left:1px solid #e5e5e5"><a title="Filter Content" class="btn btn-default btn-light md-filter-list" data-toggle="modal" data-target="#filters" role="button"></a></div>
+                <div class="pull-right" style="border-left:1px solid #e5e5e5"><a title="Edit Layout" class="btn btn-default btn-light md-palette" data-bs-toggle="offcanvas" href="#layout" role="button" aria-controls="offcanvasRight"></a></div>
+                <div class="pull-right" style="border-left:1px solid #e5e5e5"><a title="Manage Colmuns" class="btn btn-default btn-light md-remove-red-eye" data-toggle="modal" data-target="#colmuns" role="button"></a></div>
+                <div class="pull-right" style="border-left:1px solid #e5e5e5"><a title="Edit Settings" class="btn btn-default btn-light md-settings" data-bs-toggle="offcanvas" href="#settingbtn" role="button" aria-controls="offcanvasRight"></a></div>
+            </nav>
+
+
+            
+        </header>
+
+          
+        <div id="gantt_here" class=" cm-container-white container-fluid" style="width: 97%; height: 92%;"></div>
+
+
+       
+
+
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="actions" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasRightLabel">Actions</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                          
+                <table class="table table-striped table-hover">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Action</th>
+                        <th scope="col">Options</th>
+                        <th scope="col"> </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Expand All</td>
+                        <td colspan="2"><div class="btn-group" role="group">
+                            <button type="button" class="btn btn-default" onclick="otherFunctions.expandAll();"><i class="fa fa-fw fa-angle-double-down [&#xf103;]"></i></button>
+                        </div></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">2</th>
+                        <td>Collapse All</td>
+                        <td colspan="2"><div class="btn-group" role="group">
+                            <button type="button" class="btn btn-default" onclick="otherFunctions.collapseAll();"><i class="fa fa-fw fa-angle-double-up [&#xf102;]"></i></button>
+                        </div></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">3</th>
+                        <td>Delete Selected</td>
+                        <td colspan="2"><div class="btn-group" role="group">
+                            <button type="button" class="btn btn-default" onclick="deleteChildren();"><i class="fa fa-fw fa-trash [&#xf1f8;]"></i></button>
+                        </div></td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+            </div>
+          
+          
+          
+            
+          </div>
+
+
+
+          <div id="filters" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">X</button>
+                        <h4 class="modal-title" id="myModalLabel">
+                          &nbsp;  Only Filter Visible Tasks
+                            <a class="anchorjs-link" href="#myModalLabel"><span class="anchorjs-icon"></span></a>
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                      
+                      <table class="table table-striped table-hover">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Only Filter Visible</th>
+                            <th scope="col">Options</th>
+                            <th scope="col">Other</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th scope="row">1</th>
+                            <td>WBS</td>
+                            <td colspan="2"><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="showFilterBox('wbs', { target: document.querySelector('.gantt_grid_head_wbs') });" value="ACTION"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="hideFilterBox();"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                            </div></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">2</th>
+                            <td>Task Name</td>
+                            <td colspan="2"><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="showFilterBox('text', { target: document.querySelector('.gantt_grid_head_text') });"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="hideFilterBox();"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                            </div></td>
+                          </tr>
+                            <th scope="row">3</th>
+                            <td>Priority</td>
+                            <td colspan="2"><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="showFilterBox('priority', { target: document.querySelector('.gantt_grid_head_priority') });"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="hideFilterBox();"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                            </div></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">4</th>
+                            <td>Progress</td>
+                            <td colspan="2"><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="showFilterBox('progress', { target: document.querySelector('.gantt_grid_head_progress') });"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="hideFilterBox();"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                            </div></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">5</th>
+                            <td>Status</td>
+                            <td colspan="2"><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="showFilterBox('status', { target: document.querySelector('.gantt_grid_head_status') });"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="hideFilterBox();"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                            </div></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">6</th>
+                            <td>Start Date</td>
+                            <td colspan="2"><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="showFilterBox('start_date', { target: document.querySelector('.gantt_grid_head_start_date') });"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="hideFilterBox();"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                            </div></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">7</th>
+                            <td>End Date</td>
+                            <td colspan="2"><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="showFilterBox('end_date', { target: document.querySelector('.gantt_grid_head_end_date') });"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="hideFilterBox();"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                            </div></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">8</th>
+                            <td>Duration</td>
+                            <td colspan="2"><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="showFilterBox('duration', { target: document.querySelector('.gantt_grid_head_duration') });"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="hideFilterBox();"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                            </div></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">9</th>
+                            <td>Implmentaion End Date</td>
+                            <td colspan="2"><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="showFilterBox('implemented_start', { target: document.querySelector('.gantt_grid_head_implemented_start') });"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="hideFilterBox();"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                            </div></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">10</th>
+                            <td>Implmentaion End Date</td>
+                            <td colspan="2"><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="showFilterBox('implemented_end', { target: document.querySelector('.gantt_grid_head_implemented_end') });"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="hideFilterBox();"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                            </div></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">11</th>
+                            <td>Implmentaion Status</td>
+                            <td colspan="2"><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="showFilterBox('implmentaion_status', { target: document.querySelector('.gantt_grid_head_implmentaion_status') });"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="hideFilterBox();"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                            </div></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">12</th>
+                            <td>Implmentaion Notes</td>
+                            <td colspan="2"><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="showFilterBox('implmentation_notes', { target: document.querySelector('.gantt_grid_head_implmentation_notes') });"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="hideFilterBox();"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                            </div></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">13</th>
+                            <td>Workers</td>
+                            <td colspan="2"><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="showFilterBox('workers', { target: document.querySelector('.gantt_grid_head_workers') });"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="hideFilterBox();"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                            </div></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">14</th>
+                            <td>Challenges</td>
+                            <td colspan="2"><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="showFilterBox('challenges', { target: document.querySelector('.gantt_grid_head_challenges') });"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="hideFilterBox();"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                            </div></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">15</th>
+                            <td>Remarkables</td>
+                            <td colspan="2"><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="showFilterBox('remarkable', { target: document.querySelector('.gantt_grid_head_remarkable') });"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="hideFilterBox();"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                            </div></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">16</th>
+                            <td>Labels</td>
+                            <td colspan="2"><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="showFilterBox('label', { target: document.querySelector('.gantt_grid_head_label') });"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="hideFilterBox();"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                            </div></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    
+                    
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+
+          
+
+
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="layout" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasRightLabel">Edit Layout</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+
+                <table class="table table-striped table-hover">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">The Edit Action</th>
+                        <th scope="col">Options</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Change Page Zoom </td>
+                        <td colspan="2"><div class="btn-group" role="group">
+                            <button type="button" class="btn btn-default" onclick="layoutFunctions.maximizeScreen()"><i class="fa fa-fw fa-plus-circle [&#xf055;]"></i></button>
+                            <button type="button" class="btn btn-default" onclick="layoutFunctions.normalScreen()"><i class="fa fa-fw fa-dot-circle-o [&#xf192;]"></i></button>
+                            <button type="button" class="btn btn-default" onclick="layoutFunctions.minimizeScreen()"><i class="fa fa-fw fa-minus-circle [&#xf056;]"></i></button>
+                        </div></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">2</th>
+                        <td>Full Screen </td>
+                        <td colspan="2"><div class="btn-group" role="group">
+                            <button type="button" class="btn btn-default" onclick="layoutFunctions.openfullscreen()"><i class="btn fa fa-fw md-fullscreen"></i></button>
+                            <button type="button" class="btn btn-default" onclick="layoutFunctions.closefullscreen()"><i class="btn fa fa-fw md-fullscreen-exit"></i></button>
+                        </div></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">3</th>
+                        <td>Visible Start Date</td>
+                        <td colspan="2"><div class="btn-group" role="group">
+                            <input class=start_date type=date value="2025-01-01" onchange="layoutFunctions.changeVisibleDate()">
+                        </div></td>
+                      </tr>
+                      <tr>
+                        <th scope="row">4</th>
+                        <td>Visible End Date</td>
+                        <td colspan="2"><div class="btn-group" role="group">
+                            <input class=end_date type=date value="2025-12-31" onchange="layoutFunctions.changeVisibleDate()">
+                         </div></td>
+                      </tr>                  
+                      <tr>
+                        <th scope="row">5</th>
+                        <td>Show/Hide Chart</td>
+                        <td colspan="2"><div class="btn-group" role="group">
+                            <button type="button" class="btn btn-default" onclick="toggleChart()"><i class="btn fa fa-fw md-border-right"></i></button>
+                        </div></td>
+                      </tr>             
+                        <tr>
+                          <th scope="row">6</th>
+                          <td>Show/Hide Grid</td>
+                          <td colspan="2"><div class="btn-group" role="group">
+                              <button type="button" class="btn btn-default" onclick="toggleGrid()"><i class="btn fa fa-fw md-border-left"></i></button>
+                          </div></td>
+                        </tr>
+                    </tbody>
+                  </table>
+                </div>
+          </div>
+
+
+
+
+          <div id="colmuns" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="btn btn-default" data-dismiss="modal">X</button>
+                        <h4 class="modal-title" id="myModalLabel">
+                          &nbsp;  Manage Colmuns
+                            <a class="anchorjs-link" href="#myModalLabel"><span class="anchorjs-icon"></span></a>
+                        </h4>
+                    </div>
+                    <div class="modal-body">
+                      
+
+                      <table class="table table-striped table-hover">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Colmun Name</th>
+                            <th scope="col">Visibility</th>
+                            <th scope="col">Zoom</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <th scope="row">1</th>
+                            <td>WBS</td>
+                            <td><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="colmunVisibility.visible(0)"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="colmunVisibility.invisible(0)"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                            </div></td>
+                            <td><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="colmunZoom.zoomOut(0)"><i class="fa fa-fw fa-plus-circle [&#xf055;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="colmunZoom.zoomIn(0)"><i class="fa fa-fw fa-minus-circle [&#xf056;]"></i></button>
+                            </div></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">2</th>
+                            <td>Task Name</td>
+                            <td><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="colmunVisibility.visible(7)"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="colmunVisibility.invisible(7)"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                            </div></td>
+                            <td><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="colmunZoom.zoomOut(7)"><i class="fa fa-fw fa-plus-circle [&#xf055;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="colmunZoom.zoomIn(7)"><i class="fa fa-fw fa-minus-circle [&#xf056;]"></i></button>
+                            </div></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">3</th>
+                            <td>Priority</td>
+                            <td><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="colmunVisibility.visible(9)"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="colmunVisibility.invisible(9)"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                            </div></td>
+                            <td><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="colmunZoom.zoomOut(9)"><i class="fa fa-fw fa-plus-circle [&#xf055;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="colmunZoom.zoomIn(9)"><i class="fa fa-fw fa-minus-circle [&#xf056;]"></i></button>
+                            </div></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">4</th>
+                            <td>Progress</td>
+                            <td><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="colmunVisibility.visible(10)"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="colmunVisibility.invisible(10)"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                            </div></td>
+                            <td><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="colmunZoom.zoomOut(10)"><i class="fa fa-fw fa-plus-circle [&#xf055;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="colmunZoom.zoomIn(10)"><i class="fa fa-fw fa-minus-circle [&#xf056;]"></i></button>
+                            </div></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">5</th>
+                            <td>Status</td>
+                            <td><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="colmunVisibility.visible(11)"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="colmunVisibility.invisible(11)"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                            </div></td>
+                            <td><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="colmunZoom.zoomOut(11)"><i class="fa fa-fw fa-plus-circle [&#xf055;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="colmunZoom.zoomIn(11)"><i class="fa fa-fw fa-minus-circle [&#xf056;]"></i></button>
+                            </div></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">6</th>
+                            <td>Start Date</td>
+                            <td><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="colmunVisibility.visible(12)"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="colmunVisibility.invisible(12)"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                            </div></td>
+                            <td><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="colmunZoom.zoomOut(12)"><i class="fa fa-fw fa-plus-circle [&#xf055;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="colmunZoom.zoomIn(12)"><i class="fa fa-fw fa-minus-circle [&#xf056;]"></i></button>
+                            </div></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">7</th>
+                            <td>End Date</td>
+                            <td><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="colmunVisibility.visible(13)"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="colmunVisibility.invisible(13)"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                            </div></td>
+                            <td><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="colmunZoom.zoomOut(13)"><i class="fa fa-fw fa-plus-circle [&#xf055;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="colmunZoom.zoomIn(13)"><i class="fa fa-fw fa-minus-circle [&#xf056;]"></i></button>
+                            </div></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">8</th>
+                            <td>Duration</td>
+                            <td><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="colmunVisibility.visible(14)"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="colmunVisibility.invisible(14)"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                            </div></td>
+                            <td><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="colmunZoom.zoomOut(14)"><i class="fa fa-fw fa-plus-circle [&#xf055;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="colmunZoom.zoomIn(14)"><i class="fa fa-fw fa-minus-circle [&#xf056;]"></i></button>
+                            </div></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">9</th>
+                            <td>Implemetation Start Date</td>
+                            <td><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="colmunVisibility.visible(15)"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="colmunVisibility.invisible(15)"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                            </div></td>
+                            <td><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="colmunZoom.zoomOut(15)"><i class="fa fa-fw fa-plus-circle [&#xf055;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="colmunZoom.zoomIn(15)"><i class="fa fa-fw fa-minus-circle [&#xf056;]"></i></button>
+                            </div></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">10</th>
+                            <td>Implemetation End Date</td>
+                            <td><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="colmunVisibility.visible(16)"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="colmunVisibility.invisible(16)"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                            </div></td>
+                            <td><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="colmunZoom.zoomOut(16)"><i class="fa fa-fw fa-plus-circle [&#xf055;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="colmunZoom.zoomIn(16)"><i class="fa fa-fw fa-minus-circle [&#xf056;]"></i></button>
+                            </div></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">11</th>
+                            <td>Implemetation Status</td>
+                            <td><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="colmunVisibility.visible(17)"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="colmunVisibility.invisible(17)"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                            </div></td>
+                            <td><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="colmunZoom.zoomOut(17)"><i class="fa fa-fw fa-plus-circle [&#xf055;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="colmunZoom.zoomIn(17)"><i class="fa fa-fw fa-minus-circle [&#xf056;]"></i></button>
+                            </div></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">12</th>
+                            <td>Implemetation Notes</td>
+                            <td><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="colmunVisibility.visible(18)"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="colmunVisibility.invisible(18)"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                            </div></td>
+                            <td><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="colmunZoom.zoomOut(18)"><i class="fa fa-fw fa-plus-circle [&#xf055;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="colmunZoom.zoomIn(18)"><i class="fa fa-fw fa-minus-circle [&#xf056;]"></i></button>
+                            </div></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">13</th>
+                            <td>Worker</td>
+                            <td><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="colmunVisibility.visible(19)"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="colmunVisibility.invisible(19)"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                            </div></td>
+                            <td><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="colmunZoom.zoomOut(19)"><i class="fa fa-fw fa-plus-circle [&#xf055;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="colmunZoom.zoomIn(19)"><i class="fa fa-fw fa-minus-circle [&#xf056;]"></i></button>
+                            </div></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">14</th>
+                            <td>Challenges</td>
+                            <td><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="colmunVisibility.visible(20)"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="colmunVisibility.invisible(20)"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                            </div></td>
+                            <td><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="colmunZoom.zoomOut(20)"><i class="fa fa-fw fa-plus-circle [&#xf055;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="colmunZoom.zoomIn(20)"><i class="fa fa-fw fa-minus-circle [&#xf056;]"></i></button>
+                            </div></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">15</th>
+                            <td>Remarkables</td>
+                            <td><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="colmunVisibility.visible(21)"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="colmunVisibility.invisible(21)"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                            </div></td>
+                            <td><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="colmunZoom.zoomOut(21)"><i class="fa fa-fw fa-plus-circle [&#xf055;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="colmunZoom.zoomIn(21)"><i class="fa fa-fw fa-minus-circle [&#xf056;]"></i></button>
+                            </div></td>
+                          </tr>
+                          <tr>
+                            <th scope="row">16</th>
+                            <td>Labels</td>
+                            <td><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="colmunVisibility.visible(22)"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="colmunVisibility.invisible(22)"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                            </div></td>
+                            <td><div class="btn-group" role="group">
+                                <button type="button" class="btn btn-default" onclick="colmunZoom.zoomOut(22)"><i class="fa fa-fw fa-plus-circle [&#xf055;]"></i></button>
+                                <button type="button" class="btn btn-default" onclick="colmunZoom.zoomIn(22)"><i class="fa fa-fw fa-minus-circle [&#xf056;]"></i></button>
+                            </div></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    
+                    
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+
+       
+
+
+
+
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="settingbtn" aria-labelledby="offcanvasRightLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasRightLabel">Settings</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    Settings
+  </div>
+
+
+
+
+</div>
+
+
+
+
+
+    
+<script>
+
+
+//The timeline scale specification
+dateandscalesizes ();
+    
+//The Colmuns editors are declared in gantt.js
+
+//Custom Inline Editor for date with time
+datePickerConfigDates ();
+
+//The colmuns in Performance Gantt
+performanceganttcolmuns ();
+
+
+//The Gantt Shape like scrolling and two halfs and keyboard naviagtion
+ganttlayoutshape();
+
+freezecolmunsmain();
+
+statusChangeRowsColor ();
+
+
+//To hide Lightbox to disable ading new tasks or delete
+hideLightbox ();
+
+gantt.init("gantt_here");
+    
+            
+initializeAndLoadDataFromFirebase();
+            
+showImplementedDate ();
+
+otherGanttFuncions();
+//document.body.style.zoom = "80%";
+
+
+//gantt.plugins({ quick_info: true}); 
+
+
+
+gantt.config.readonly = true;
+
+
+
+
+</script>
+  
+
+<footer class="cm-footer" style = "height:1px">
+
+  
+  </footer>
+
+                                            
+<!-- The Clearmin Dashboard JavaScript Libraries -->
+<script src="Sources/Clearmin_Dashboard_All.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    
+
+<script>
+
+
+</script>
+
+
+</body>
+</html>

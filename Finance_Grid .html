@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <script src="https://www.gstatic.com/firebasejs/11.2.0/firebase-app-compat.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/11.2.0/firebase-database-compat.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">    
+    <!-- The Clearmin Dashboard CSS Libraries -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <link rel="stylesheet" type="text/css" href="Sources/Clearmin_Dashboard_All.css">
+
+    <!-- dhtmlxGantt-GPL Free Version-->  <!-- Lock -->
+    <script src="Sources/suite_GPL_903.js"></script>
+    <!-- <link rel="stylesheet" href="Sources/dhtmlxgantt-gpl.css">  -->
+    <link rel="stylesheet" href="Sources/suite_GPL_903.css">
+
+    <!-- dhtmlxGantt-GPL Free Version-->  <!-- Lock -->
+    <script src="Sources/grid_GPL_903.js"></script>
+    <!-- <link rel="stylesheet" href="Sources/dhtmlxgantt-gpl.css">  -->
+    <link rel="stylesheet" href="Sources/grid_GPL_903.css">
+
+  
+
+
+     <!-- JQuery Datapiker -->
+    <script src="Sources/datepiker/jquery.js"></script>
+    <script src="Sources/datepiker/jquery.datetimepicker.full.min.js"></script>
+    <link rel="stylesheet" href="Sources/datepiker/jquery.datetimepicker.min.css">
+
+    <title>Finance Grid</title>
+    </head>
+
+
+
+
+
+
+
+  
+  
+<body class="cm-no-transition cm-2-navbar cm-menu-toggled">
+        <div id="cm-menu">
+            <nav class="cm-navbar cm-navbar-turquoise">
+                <div class="cm-flex"><a href="index.html" class="cm-logo"></a></div>
+                <div class="btn btn-turquoise md-menu-white" data-toggle="cm-menu"></div>
+            </nav>
+            <div id="cm-menu-content">
+                <div id="cm-menu-items-wrapper">
+                    <div id="cm-menu-scroller">
+                        <ul class="cm-menu-items">
+                            <li class="cm-submenu">
+                                <a class="sf-house">Main Dashboard <span class="caret"></span></a>
+                                <ul>
+                                    <li><a href="Main_Overview.html">Main Overview</a></li>
+                                    <li><a href="Main_Gantt.html" >Main Gantt</a></li>
+                                    <li><a href="Main_Grid.html">Main Grid</a></li>
+                                    <li><a href="Main_Overview.html">Main Sheet</a></li>
+                                    <li><a href="Main_PowerBi.html">Main PowerBi</a></li>
+                                </ul>
+                            </li>
+                            <li class="cm-submenu" class="active">
+                                <a class="sf-dashboard">Performane Dashboard <span class="caret"></span></a>
+                                <ul>
+                                    <li><a href="Performance_Overview.html" class="active">Performane Overview</a></li>
+                                    <li><a href="Performance_Gantt.html" >Performane Gantt</a></li>
+                                    <li><a href="Performance_Grid.html">Performane Grid</a></li>
+                                </ul>
+                            </li>
+                            <li class="cm-submenu"><a href="#" class="sf-box-full">Documentation Dashboard <span class="caret"></span></a>
+                                <ul>
+                                    <li><a href="Documentation_Overview.html">Documentation Overview</a></li>
+                                    <li><a href="Documentation_Gantt.html" class="active">Documentation Gantt</a></li>
+                                    <li><a href="Documentation_Grid.html">Documentation Grid</a></li>
+                                </ul>   
+                            </li>
+                            <li class="cm-submenu"><a href="#" class="sf-money">Finance Dashboard<span class="caret"></span></a>
+                                <ul>
+                                    <li><a href="Finance_Overview.html">Finance Overview</a></li>
+                                    <li><a href="Finance_Gantt.html" class="active">Finance Gantt</a></li>
+                                    <li><a href="Finance_Grid .html">Finance Grid</a></li>
+                                    <li><a href="Finance_Tabulator.html">Finance Tabulator</a></li>
+                                    <li><a href="Finance_PR_PO_Tracker.html" class="active">PR/PO Tracker</a></li>
+                                    <li><a href="Finance_Expenses.html">Expenses Report</a></li>
+                                    <li><a href="Finance_Trial_Balance.html">Trial Balance</a></li>
+                                </ul>
+                            </li>
+                            <li class="cm-submenu"><a href="#" class="sf-monitor">MEAL Dashboard<span class="caret"></span></a>
+                                <ul>
+                                    <li><a href="MEAL_Overview.html">MEAL Overview</a></li>
+                                    <li><a href="MEAL_Gantt.html" class="active">MEAL Gantt</a></li>
+                                    <li><a href="MEAL_Grid.html">MEAL Grid</a></li>
+                                </ul>
+                            </li>
+                            <li class="cm-submenu"><a href="#" class="sf-profile-group">HR Dashboard<span class="caret"></span></a>
+                                <ul>
+                                    <li><a href="HR_Overview.html">HR Overview</a></li>
+                                    <li><a href="HR_Gantt.html" class="active">HR Gantt</a></li>
+                                    <li><a href="HR_Grid.html">HR Grid</a></li>
+                                </ul>
+                            </li>                           
+                            <li><a href="ChatWithAI.html" class="sf-terminal">Chat with AI</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <header id="cm-header">
+
+            <nav class="cm-navbar cm-navbar-default cm-navbar-slideup">
+                <div class="cm-flex">
+                    <div class="nav-tabs-container">
+                        <ul class="nav nav-tabs">
+                          <li style="border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5" id="OverviewPage" ><a  href="Finance_Overview.html">Finance Overview</a></li>
+                          <li style="border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5" id="GanttPage"  ><a  href="Finance_Gantt.html">Finance Gantt</a></li>
+                          <li style="border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5" id="GridPage" class="active"><a  href="Finance_Grid .html">Finance Grid</a></li>
+                          <li style="border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5" id="GridPage"><a  href="Finance_Tabulator.html">Finance Tabulator</a></li>
+                          <li style="border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5" id="OverviewPage" ><a  href="Finance_PR_PO_Tracker.html">PR/PO Tracker</a></li>
+                          <li style="border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5" id="GanttPage"   ><a  href="Finance_Expenses.html">Expenses Report</a></li>
+                          <li style="border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5" id="GridPage"><a  href="Finance_Trial_Balance.html">Trial Balance</a></li>
+                        </ul>
+                    </div>
+                </div>
+          
+              
+                         
+       
+
+                <div class="pull-right" style="border-left:1px solid #e5e5e5"><a title="Actions" class="btn btn-default btn-light md-tune" data-bs-toggle="offcanvas" href="#actions" role="button" aria-controls="offcanvasRight"></a></div>
+                <div class="pull-right" style="border-left:1px solid #e5e5e5"><a title="Filter Content" class="btn btn-default btn-light md-filter-list" data-bs-toggle="offcanvas" href="#filters" role="button" aria-controls="offcanvasRight"></a></div>
+                <div class="pull-right" style="border-left:1px solid #e5e5e5"><a title="Edit Layout" class="btn btn-default btn-light md-palette" data-bs-toggle="offcanvas" href="#layout" role="button" aria-controls="offcanvasRight"></a></div>
+                <div class="pull-right" style="border-left:1px solid #e5e5e5"><a title="Manage Colmuns" class="btn btn-default btn-light md-remove-red-eye" data-toggle="modal" data-target="#colmuns" role="button"></a></div>
+                <div class="pull-right" style="border-left:1px solid #e5e5e5"><a title="Edit Settings" class="btn btn-default btn-light md-settings" data-bs-toggle="offcanvas" href="#settingbtn" role="button" aria-controls="offcanvasRight"></a></div>
+            </nav>
+
+
+            
+        </header>
+
+
+
+
+
+          
+   <div id="grid_container" class=" cm-container-white container-fluid" style="height: 100%; width: 100%; position: relative;"></div>
+
+       
+
+
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="actions" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasRightLabel">Actions</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+              Actions
+
+            
+            </div>
+          
+          
+          
+            
+          </div>
+
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="filters" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasRightLabel">Filters</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+              Filter
+            </div>
+          
+          
+          
+            
+          </div>
+
+
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="layout" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasRightLabel">Edit Layout</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+              Edit Layouts
+            </div>
+          
+          
+          
+            
+          </div>
+
+
+        
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="settingbtn" aria-labelledby="offcanvasRightLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasRightLabel">Settings</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    Settings
+  </div>
+
+
+
+
+</div>
+
+ 
+
+<div id="colmuns" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="btn btn-default" data-dismiss="modal">X</button>
+              <h4 class="modal-title" id="myModalLabel">
+                &nbsp;  Manage Colmuns
+                  <a class="anchorjs-link" href="#myModalLabel"><span class="anchorjs-icon"></span></a>
+              </h4>
+          </div>
+          <div class="modal-body">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Colmun Name</th>
+                  <th scope="col">Visibility</th>
+                
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>WBS</td>
+                  <td colspan = "2" ><div class="btn-group" role="group">
+                      <button type="button" class="btn btn-default" onclick="grid.showColumn('WBS_Code');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                      <button type="button" class="btn btn-default" onclick="grid.hideColumn('WBS_Code');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                  </div></td>
+                <tr>
+                  <th scope="row">2</th>
+                  <td>Task Name</td>
+                  <td><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('text');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('text');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+
+                </tr>
+                <tr>
+                  <th scope="row">3</th>
+                  <td>Priority</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('priority');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('priority');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+
+                </tr>
+                <tr>
+                  <th scope="row">4</th>
+                  <td>Progress</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('progress');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('progress');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+
+                </tr>
+                <tr>
+                  <th scope="row">5</th>
+                  <td>Status</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('status');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('status');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+
+                </tr>
+                <tr>
+                  <th scope="row">6</th>
+                  <td>Start Date</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('start_date');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('start_date');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+
+                </tr>
+                <tr>
+                  <th scope="row">7</th>
+                  <td>End Date</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('end_date');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('end_date');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+
+                </tr>
+                <tr>
+                  <th scope="row">8</th>
+                  <td>Finance Code</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Fin_Code');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Fin_Code');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+
+                </tr>
+                <tr>
+                  <th scope="row">9</th>
+                  <td>Item Name</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Item_Name');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Item_Name');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+
+                </tr>
+                <tr>
+                  <th scope="row">10</th>
+                  <td>Cost in Dollar</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Cost_Dollar');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Cost_Dollar');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+
+                </tr>
+                <tr>
+                  <th scope="row">11</th>
+                  <td>Cost in Yemeni</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Cost_Yemeni');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Cost_Yemeni');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">12</th>
+                  <td>Fin/Log Description</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Fin_Log_Description');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Fin_Log_Description');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">13</th>
+                  <td>PR Status</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('PR_Status');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('PR_Status');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">14</th>
+                  <td>PR Date</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('PR_Date');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('PR_Date');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">15</th>
+                  <td>PO Status</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('PO_Status');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('PO_Status');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">16</th>
+                  <td>PO Date</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('PO_Date');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('PO_Date');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">17</th>
+                  <td>Parent Item</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Parent_Item');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Parent_Item');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">18</th>
+                  <td>Allocated budget</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Allocated_budget');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Allocated_budget');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">19</th>
+                  <td>The Spent</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Spent');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Spent');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">20</th>
+                  <td>The Balance</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('The_Balance');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('The_Balance');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">21</th>
+                  <td>Precentage</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Precentage');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Precentage');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">22</th>
+                  <td>Changes in Budget</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Changes_in_Budget');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Changes_in_Budget');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">23</th>
+                  <td>Jan FC</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Jan_FC');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Jan_FC');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">24</th>
+                  <td>Feb_FC</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Feb_FC');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Feb_FC');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">25</th>
+                  <td>Mar_FC</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Mar_FC');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Mar_FC');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">26</th>
+                  <td>Apr_FC</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Apr_FC');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Apr_FC');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">27</th>
+                  <td>May_FC</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('May_FC');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('May_FC');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">28</th>
+                  <td>Jun_FC</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Jun_FC');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Jun_FC');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">30</th>
+                  <td>Jul_FC</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Jul_FC');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Jul_FC');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">31</th>
+                  <td>Aug_FC</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Aug_FC');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Aug_FC');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">32</th>
+                  <td>Sep_FC</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Sep_FC');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Sep_FC');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">33</th>
+                  <td>Oct_FC</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Oct_FC');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Oct_FC');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">34</th>
+                  <td>Nov_FC</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Nov_FC');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Nov_FC');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">35</th>
+                  <td>Dec_FC</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Dec_FC');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Dec_FC');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">36</th>
+                  <td>Total</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Total');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Total');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">37</th>
+                  <td>Final Remaining</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('final_remaining');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('final_remaining');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">38</th>
+                  <td>Finance Notes</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Fin_Notes');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Fin_Notes');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+              </tbody>
+            </table>                 
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+      </div>
+      <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+
+<script>
+
+
+
+// defining the method for calculating the density of population
+
+
+
+
+
+  const grid = new dhx.Grid("grid_container", {
+      columns: [
+          colmundeclaration.id,
+          colmundeclaration.taskid, 
+          colmundeclaration.type, 
+          colmundeclaration.parent,
+
+
+
+          colmundeclaration.wbscode,
+          colmundeclaration.task,
+          colmundeclaration.priority,
+          colmundeclaration.progress,
+          colmundeclaration.status,
+          colmundeclaration.startdate,
+          colmundeclaration.enddate,
+
+          
+          colmundeclaration.Budget_Item_Status,
+          colmundeclaration.Total_Allocated_Budget_Item,
+          colmundeclaration.Budget_Item_Name,
+          colmundeclaration.Fin_Code,
+          colmundeclaration.Item_Name,
+          colmundeclaration.Cost_Dollar,
+          colmundeclaration.Cost_Yemeni,
+          colmundeclaration.Fin_Log_Description,
+
+          colmundeclaration.PR_Status,
+          colmundeclaration.PR_Date,
+
+          
+          colmundeclaration.PO_Status,
+          colmundeclaration.PO_Date,
+          
+
+          colmundeclaration.Parent_Item,
+          colmundeclaration.Allocated_budget,
+          colmundeclaration.Spent,
+          colmundeclaration.The_Balance,
+          colmundeclaration.Precentage,
+          colmundeclaration.Changes_in_Budget,
+
+          colmundeclaration.Jan_FC,
+          colmundeclaration.Feb_FC,
+          colmundeclaration.Mar_FC,
+          colmundeclaration.Apr_FC,
+          colmundeclaration.May_FC,
+          colmundeclaration.Jun_FC,
+          colmundeclaration.Jul_FC,
+          colmundeclaration.Aug_FC,
+          colmundeclaration.Sep_FC,
+          colmundeclaration.Oct_FC,
+          colmundeclaration.Nov_FC,
+          colmundeclaration.Dec_FC,
+          colmundeclaration.Total,
+          colmundeclaration.final_remaining,
+          colmundeclaration.Fin_Notes,
+
+     
+      ],
+      selection: true,
+      editable: true,
+      adjust: false,
+      sortable: true,
+      resizable: true,
+      leftSplit: 6,
+      multiselection: true,
+
+
+  });
+
+
+
+firebaseadapter ();
+
+
+
+//document.body.style.zoom = "80%";
+
+
+
+//dhx.setTheme("dark", "grid_container");
+
+
+//grid.events.on("afterEditEnd", (value, row, column) => {
+
+  //var forecastingtotal = row.Jan_FC + row.Feb_FC + row.Mar_FC + row.Apr_FC + row.May_FC + row.Jun_FC + row.Jul_FC + row.Aug_FC + row.Sep_FC + row.Oct_FC + row.Nov_FC + row.Dec_FC;
+
+ 
+  //grid.data.getItem(grid.data.getId(row.id*1));
+  //var id = grid.data.getId(row.id*1)
+  //grid.data.update(id, {"Total": forecastingtotal});
+  
+  //console.log();
+
+//});
+
+
+
+
+
+  
+dhx.awaitRedraw().then(function() {
+
+// --- Utility Function (Define once and reuse) ---
+function extractNumericValue(element) {
+    if (!element) {
+        console.warn("Element not found, returning 0.");
+        return 0;
+    }
+    const textContent = element.textContent;
+    const numberString = textContent.replace(/[^\d,.-]/g, '').replace(',', ''); // Allow decimal points and hyphens
+    const number = parseFloat(numberString);
+    return isNaN(number) ? 0 : number;
+}
+
+function setupDynamicValueObserver(dataDhxId, variableName, updateBalanceFunction) { // Added updateBalanceFunction
+    // Get ALL HTML elements with the specified data-dhx-id and role="gridcell"
+    const elements = document.querySelectorAll(`[data-dhx-id="${dataDhxId}"][role="gridcell"] .dhx_grid-header-cell-text_content`);
+
+    let targetElement = null;
+
+    if (elements.length >= 2) {
+        targetElement = elements[1]; // Select the SECOND element (index 1) - Adjust if needed
+        console.log(`Second Element for ${dataDhxId} found:`, targetElement);
+    } else if (elements.length >= 1) {
+        targetElement = elements[0]; // Fallback to the first if available
+        console.warn(`Warning: Less than two ${dataDhxId} elements found. Using the first one.`);
+    } else {
+        console.warn(`Warning: No ${dataDhxId} elements with role='gridcell' found.`);
+        return; // Exit if no element is found
+    }
+
+    // Initialize the variable with the current value
+    window[variableName] = extractNumericValue(targetElement); // Use window to make variable global if needed, otherwise scope carefully
+    console.log(`Initial ${variableName}:`, window[variableName]);
+
+    // Initial balance update if function is provided
+    if (updateBalanceFunction) {
+        updateBalanceFunction(); // Call it immediately after initial value is set
+    }
+
+
+    // Create a MutationObserver
+    const observer = new MutationObserver(mutationsList => {
+        for (const mutation of mutationsList) {
+            if (mutation.type === 'childList' || mutation.type === 'characterData') {
+                // Update the variable whenever the text content changes
+                window[variableName] = extractNumericValue(targetElement);
+                console.log(`${variableName} updated:`, window[variableName]);
+                if (updateBalanceFunction) {
+                    updateBalanceFunction(); // Call balance update on each value change
+                }
+            }
+        }
+    });
+
+    if (targetElement) {
+        observer.observe(targetElement, {
+            subtree: true,
+            characterData: true,
+            childList: true
+        });
+        console.log(`MutationObserver started for ${variableName} on element:`, targetElement);
+    } else {
+        console.warn(`MutationObserver for ${variableName} not started because the element was not found.`);
+    }
+}
+
+// --- Function to update The_Balance element ---
+
+
+// --- Set up dynamic value for Spent_Dollar ---
+setupDynamicValueObserver("Spent", "Spent_Dollar"); // Pass updateTheBalance function
+
+// --- Set up dynamic value for Allocated_budget_Dollar ---
+setupDynamicValueObserver("Allocated_budget", "Allocated_budget_Dollar"); // Pass updateBalance function
+
+
+
+// --- Example of accessing the dynamic variables later ---
+// You can now access Spent_Dollar and Allocated_budget_Dollar in your code
+// console.log("Current Spent_Dollar:", Spent_Dollar); // Access via window.Spent_Dollar if using window scope
+// console.log("Current Allocated_budget_Dollar:", Allocated_budget_Dollar); // Access via window.Allocated_budget_Dollar if using window scope
+
+
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+<footer class="cm-footer" style = "height:1px">
+
+  
+</footer>
+
+
+
+
+<!-- The Clearmin Dashboard JavaScript Libraries -->
+<script src="Sources/Clearmin_Dashboard_All.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+
+</body>      
+</html>

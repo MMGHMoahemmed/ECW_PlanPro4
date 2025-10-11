@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="https://www.gstatic.com/firebasejs/11.2.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.2.0/firebase-database-compat.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">    
+    <!-- The Clearmin Dashboard CSS Libraries -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <link rel="stylesheet" type="text/css" href="Sources/Clearmin_Dashboard_All.css">
+
+    <!-- JQuery Datapiker -->
+    <script src="Sources/datepiker/jquery.js"></script>
+    <script src="Sources/datepiker/jquery.datetimepicker.full.min.js"></script>
+    <link rel="stylesheet" href="Sources/datepiker/jquery.datetimepicker.min.css">
+
+
+
+<link href="https://unpkg.com/tabulator-tables@6.3.1/dist/css/tabulator_bootstrap5.min.css" rel="stylesheet">
+<script type="text/javascript" src="https://unpkg.com/tabulator-tables@6.3.1/dist/js/tabulator.min.js"></script>
+
+
+
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background-color: #f4f7f6;
+        }
+        #example-table {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .tabulator {
+            border: none;
+        }
+        .tabulator-header {
+            background-color: #f9f9f9;
+            border-bottom: 2px solid #ddd;
+        }
+        .tabulator-col-title {
+            color: #333;
+            font-weight: 600;
+            padding: 10px;
+        }
+
+
+
+
+/* Keep this to hide the default toggle */
+.tabulator-row .tabulator-cell .tabulator-data-tree-control {
+    display: none;
+}
+
+/* Container for your custom toggle and text */
+/* Container for your custom toggle and text */
+.task-cell-content {
+    /* display: flex; */ /* Remove or comment out this line */
+    display: inline; /* CHANGE THIS LINE */
+    align-items: center; /* Vertically align items */
+    /* width: 100%; */ /* Usually not needed with inline-flex, remove or comment out */
+    /* Add vertical-align if needed for fine-tuning with branch element */
+    vertical-align: middle; /* Or top, bottom */
+}
+
+/* Style the custom toggle button */
+.custom-tree-toggle {
+    background: none;        /* Remove default button background */
+    border: none;           /* Remove default button border */
+    padding: 0 5px 0 0;     /* Adjust padding (right padding adds space before text) */
+    margin: 0;              /* Remove default margin */
+    cursor: pointer;        /* Pointer cursor on hover */
+    font-size: 0.9em;       /* Adjust size as needed */
+    color: #666;           /* Arrow color */
+    line-height: 1;       /* Align arrow better with text */
+    /* Important: Prevent button click from selecting cell text */
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    flex-shrink: 0; /* Prevent the button from shrinking */
+}
+
+/* Style the text part */
+.task-cell-text {
+    white-space: nowrap !important;    /* Prevent text wrapping */
+    overflow: hidden;        /* Hide overflow */
+    text-overflow: " [..]"; /* Add ellipsis (...) for overflow */
+    flex-grow: 1;          /* Allow text to take remaining space */
+}
+
+
+/* Add states using CSS classes (we'll add/remove these in JS) */
+.custom-tree-toggle.expanded::before {
+    content: '▼'; /* Down arrow for expanded */
+}
+
+.custom-tree-toggle.collapsed::before {
+    content: '▶'; /* Right arrow for collapsed (or use ▸ ) */
+}
+
+#filter-modal .modal-dialog {
+    margin: 0;
+    position: absolute;
+    top: 50px;
+    left: 50px;
+}
+
+#filter-modal .modal-header {
+    cursor: move;
+}
+
+
+    </style>
+
+
+
+    <title>Main Tabulator</title>
+</head>
+
+<body class="cm-no-transition cm-2-navbar cm-menu-toggled">
+    <div id="cm-menu">
+        <nav class="cm-navbar cm-navbar-turquoise">
+            <div class="cm-flex"><a href="index.html" class="cm-logo"></a></div>
+            <div class="btn btn-turquoise md-menu-white" data-toggle="cm-menu"></div>
+        </nav>
+        <div id="cm-menu-content">
+            <div id="cm-menu-items-wrapper">
+                <div id="cm-menu-scroller">
+                    <ul class="cm-menu-items">
+                        <li class="cm-submenu">
+                            <a class="sf-house">Main Dashboard <span class="caret"></span></a>
+                            <ul>
+                                <li><a href="Main_Overview.html">Main Overview</a></li>
+                                <li><a href="Main_Gantt.html">Main Gantt</a></li>
+                                <li><a href="Main_Grid.html">Main Grid</a></li>
+                                <li><a href="Main_Tabulator.html" class="active">Main Tabulator</a></li>
+                                <li><a href="Main_Sheet.html">Main Sheet</a></li>
+                                <li><a href="Main_PowerBi.html">Main PowerBi</a></li>
+                            </ul>
+                        </li>
+                        <li class="cm-submenu">
+                            <a class="sf-dashboard">Performane Dashboard <span class="caret"></span></a>
+                            <ul>
+                                <li><a href="Performance_Overview.html">Performane Overview</a></li>
+                                <li><a href="Performance_Gantt.html">Performane Gantt</a></li>
+                                <li><a href="Performance_Grid.html">Performane Grid</a></li>
+                            </ul>
+                        </li>
+                        <li class="cm-submenu"><a href="#" class="sf-box-full">Documentation Dashboard <span class="caret"></span></a>
+                            <ul>
+                                <li><a href="Documentation_Overview.html">Documentation Overview</a></li>
+                                <li><a href="Documentation_Gantt.html">Documentation Gantt</a></li>
+                                <li><a href="Documentation_Grid.html">Documentation Grid</a></li>
+                            </ul>   
+                        </li>
+                        <li class="cm-submenu"><a href="#" class="sf-money">Finance Dashboard<span class="caret"></span></a>
+                            <ul>
+                                <li><a href="Finance_Overview.html">Finance Overview</a></li>
+                                <li><a href="Finance_Gantt.html">Finance Gantt</a></li>
+                                <li><a href="Finance_Grid .html">Finance Grid</a></li>
+                                <li><a href="Finance_Tabulator.html">Finance Tabulator</a></li>
+                                <li><a href="Finance_PR_PO_Tracker.html">PR/PO Tracker</a></li>
+                                <li><a href="Finance_Expenses.html">Expenses Report</a></li>
+                                <li><a href="Finance_Trial_Balance.html">Trial Balance</a></li>
+                            </ul>
+                        </li>
+                        <li class="cm-submenu"><a href="#" class="sf-monitor">MEAL Dashboard<span class="caret"></span></a>
+                            <ul>
+                                <li><a href="MEAL_Overview.html">MEAL Overview</a></li>
+                                <li><a href="MEAL_Gantt.html">MEAL Gantt</a></li>
+                                <li><a href="MEAL_Grid.html">MEAL Grid</a></li>
+                            </ul>
+                        </li>
+                        <li class="cm-submenu"><a href="#" class="sf-profile-group">HR Dashboard<span class="caret"></span></a>
+                            <ul>
+                                <li><a href="HR_Overview.html">HR Overview</a></li>
+                                <li><a href="HR_Gantt.html">HR Gantt</a></li>
+                                <li><a href="HR_Grid.html">HR Grid</a></li>
+                            </ul>
+                        </li>                           
+                        <li><a href="ChatWithAI.html" class="sf-terminal">Chat with AI</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header id="cm-header">
+        <nav class="cm-navbar cm-navbar-default cm-navbar-slideup">
+            <div class="cm-flex">
+                <div class="nav-tabs-container">
+                    <ul class="nav nav-tabs">
+                        <li style="border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5" id="OverviewPage" ><a  href="Main_Overview.html">Main Overview</a></li>
+                        <li style="border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5" id="GanttPage"  ><a  href="Main_Gantt.html">Main Gantt</a></li>
+                        <li style="border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5" id="GridPage" ><a  href="Main_Grid.html">Main Grid</a></li>
+                        <li style="border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5" id="TabulatorPage" class="active" ><a  href="Main_Tabulator.html">Main Tabulator</a></li>
+                        <li style="border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5" id="SheetPage" ><a  href="Main_Sheet.html">Main Sheet</a></li>
+                        <li style="border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5" id="PowerBiPage" ><a  href="Main_PowerBi.html">Main PowerBi</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="pull-right" style="border-left:1px solid #e5e5e5">
+                <button id="filter-button" class="btn btn-default btn-light" data-toggle="modal" data-target="#filter-modal">Filter</button>
+                <button id="refresh-button" class="btn btn-default btn-light">Refresh Data</button>
+              <!--    <button id="console_data" class="btn btn-default btn-light">Console Data</button>    -->
+            </div>
+        </nav>
+    </header>
+
+    <div id="filter-modal" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Filter Columns</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="filter-form">
+                        <div class="form-group">
+                            <label for="wbs-filter">WBS Code</label>
+                            <input type="text" id="wbs-filter" class="form-control" placeholder="Filter by WBS Code">
+                        </div>
+                        <div class="form-group">
+                            <label for="task-filter">Task Description</label>
+                            <input type="text" id="task-filter" class="form-control" placeholder="Filter by Task Description">
+                        </div>
+                        <div class="form-group">
+                            <label for="priority-filter">Priority</label>
+                            <select id="priority-filter" class="form-control">
+                                <option value="">All</option>
+                                <option value="High">High</option>
+                                <option value="Medium">Medium</option>
+                                <option value="Low">Low</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="status-filter">Status</label>
+                            <select id="status-filter" class="form-control">
+                                <option value="">All</option>
+                                <option value="Not Started">Not Started</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Done">Done</option>
+                                <option value="Canceled">Canceled</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="start-date-filter">Start Date</label>
+                            <input type="text" id="start-date-filter" class="form-control" placeholder="Filter by Start Date">
+                        </div>
+                        <div class="form-group">
+                            <label for="end-date-filter">End Date</label>
+                            <input type="text" id="end-date-filter" class="form-control" placeholder="Filter by End Date">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="apply-filters" class="btn btn-primary">Apply</button>
+                    <button type="button" id="clear-filters" class="btn btn-secondary">Clear</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="example-table" class=" cm-container-white container-fluid" style="height: 100%; width: 100%; position: relative;"></div>
+
+    <script src="https://unpkg.com/dexie@3.2.2/dist/dexie.js"></script>
+    <script>
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCWk0lMGXEorjKGFKCQdTl0zeuWW7ahEps",
+            authDomain: "ecwnmo.firebaseapp.com",
+            databaseURL: "https://ecwnmo-default-rtdb.firebaseio.com",
+            projectId: "ecwnmo",
+            storageBucket: "ecwnmo.firebasestorage.app",
+            messagingSenderId: "761450479043",
+            appId: "1:761450479043:web:a63922e822d84e4d1c1176",
+            measurementId: "G-3G9DZD0RRL"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Initialize Dexie DB
+        const db = new Dexie("projectData");
+        db.version(1).stores({
+            tasks: '++id, WBS_Code, text, priority, progress, status, start_date, end_date, duration, public_comments, private_comments, notes'
+        });
+
+        // Function to transform flat data into nested structure
+        function transformDataToNested(data) {
+            const nestedData = [];
+            const codeMap = {};
+            data.forEach(item => {
+                const wbsCode = item.WBS_Code;
+                if (!wbsCode) return;
+                const parts = wbsCode.split('.');
+                let currentCode = '';
+                for (let i = 0; i < parts.length; i++) {
+                    const part = parts[i];
+                    currentCode = currentCode ? `${currentCode}.${part}` : part;
+                    if (!codeMap[currentCode]) {
+                        const levelDataItem = data.find(d => d.WBS_Code === currentCode);
+                        if (levelDataItem) {
+                            const newItem = { ...levelDataItem, _children: [] };
+                            codeMap[currentCode] = newItem;
+                            const parentCode = parts.slice(0, i).join('.');
+                            if (parentCode && codeMap[parentCode]) {
+                                codeMap[parentCode]._children.push(newItem);
+                            } else if (!parentCode) {
+                                nestedData.push(newItem);
+                            }
+                        }
+                    }
+                }
+            });
+            return nestedData;
+        }
+        
+        function removeEmptyChildren(nodes) {
+            nodes.forEach(node => {
+                if (node._children) {
+                    if (node._children.length > 0) {
+                        removeEmptyChildren(node._children);
+                    } else {
+                        delete node._children;
+                    }
+                }
+            });
+        }
+        
+        
+
+        const ToggleButton =  (cell) => {
+    const row = cell.getRow();
+    const rowData = row.getData();
+    // Check if the row component has children (use Tabulator's method)
+    const isParent = row.getTreeChildren && row.getTreeChildren().length > 0;
+
+    // Create the main container for flex alignment
+    const container = document.createElement("div");
+    container.classList.add("task-cell-content");
+
+    // Create the text span first
+    const textSpan = document.createElement("span");
+    textSpan.classList.add("task-cell-text");
+    textSpan.textContent = cell.getValue() || ""; // Handle null/undefined values
+
+    if (isParent) {
+        // Create the custom toggle button only for parent rows
+        const toggleButton = document.createElement("button");
+        toggleButton.setAttribute("type", "button"); // Good practice for non-submitting buttons
+        toggleButton.classList.add("custom-tree-toggle");
+        toggleButton.title = "Toggle Children";
+
+        // Set initial state based on current expansion
+        if (row.isTreeExpanded()) {
+            toggleButton.classList.add("expanded");
+        } else {
+            toggleButton.classList.add("collapsed");
+        }
+
+        // Add click listener to toggle the row
+        toggleButton.addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent cell editing or other cell clicks
+            row.treeToggle();
+        });
+
+        // Add the button BEFORE the text
+        container.appendChild(toggleButton);
+    } else {
+         // Optional: Add some padding/margin to non-parent rows
+         // to align text visually if desired, or leave as is.
+         // Example: container.style.paddingLeft = "15px"; // Adjust value
+    }
+
+    // Add the text span
+    container.appendChild(textSpan);
+
+    // Return the container element
+    return container;
+};
+
+
+
+
+        var table = new Tabulator("#example-table", {
+            height: "100%",
+            data: [], // Initial empty data
+            dataTree: true,
+            dataTreeStartExpanded: true,
+            dataTreeElementColumn: "text",
+            layout: "fitDataStretch",
+            debugEventsInternal:true, //console log internal events
+            debugEventsInternal:["data-loading","data-load", "data-loaded","data-processed","filter-changed"],
+            movableColumns: true,
+            resizableColumns: true,
+            dataTreeChildIndent: 15,
+            rowFormatter: function(row) {
+                var data = row.getData();
+                if (!data._children || data._children.length === 0) {
+                    row.getElement().classList.add("no-children");
+                }
+            },
+            columns: [
+                { title: "WBS Code", field: "WBS_Code", width: 100, frozen:true, headerFilter:true, headerFilterPlaceholder:"Search..." },
+                { title: "Task Description", field: "text", width: 300,  frozen:true, formatter: ToggleButton, headerFilter:true, headerFilterPlaceholder:"Search..." },
+                { title: "Priority", field: "priority", width: 100, headerFilter:true, headerFilterPlaceholder:"Search..." },
+                { title: "Progress", field: "progress", width: 100, formatter:"progress",  formatterParams:{ min:0, max:1, color:["green"], legendColor:"#000000", legendAlign:"center" },   },
+                { title: "Status", field: "status", width: 150, headerFilter:true, headerFilterPlaceholder:"Search..." },
+                { title:"Start Date", field:"start_date", width: 150, formatter:function(cell, formatterParams, onRendered){
+                    var start_date = cell.getValue();
+                    if(!start_date) return "";
+                    var intdate = new Date(start_date);
+                    var year = intdate.getFullYear();
+                    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+                    var month = months[intdate.getMonth()];
+                    var date = intdate.getDate();
+                    return date + ' ' + month + ' ' + year;
+                    }
+                },
+                { title:"End Date", field:"end_date", width: 150, formatter:function(cell, formatterParams, onRendered){
+                    var end_date = cell.getValue();
+                    if(!end_date) return "";
+                    var intdate = new Date(end_date);
+                    var year = intdate.getFullYear();
+                    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+                    var month = months[intdate.getMonth()];
+                    var date = intdate.getDate();
+                    return date + ' ' + month + ' ' + year;
+                    }
+                },
+                { title: "Duration", field: "duration", width: 100,   },
+                { title: "Public Comments", field: "public_comments",  width: 200,   },
+                { title: "Private Comments", field: "private_comments", width: 200,  },
+                { title: "Notes", field: "notes", width: 200,   },
+            ],
+        });
+
+        let originalData = [];
+
+        // Load data from Dexie and update table
+        async function loadDataFromDexie() {
+            const tasks = await db.tasks.toArray();
+            if (tasks.length > 0) {
+                const nestedData = transformDataToNested(tasks);
+                removeEmptyChildren(nestedData);
+                originalData = nestedData;
+
+                console.log("Nested Data Before setData",nestedData);
+
+                table.setData(nestedData);
+
+                const datafromtable = table.getData();
+
+                console.log("Data from table.getData",datafromtable);
+            } else {
+                // If no data in Dexie, fetch from Firebase
+                refreshData();
+            }
+        }
+
+        // Fetch data from Firebase, update Dexie and table
+        function refreshData() {
+            console.log("Fetching data from Firebase...");
+            database.ref('tasks').once('value', (snapshot) => {
+                const data = snapshot.val();
+                let tasksArray = [];
+                for (let key in data) {
+                    tasksArray.push(data[key]);
+                }
+
+                // Clear existing data and add new data
+                db.tasks.clear().then(() => {
+                    db.tasks.bulkAdd(tasksArray).then(() => {
+                        console.log("Data stored in Dexie.");
+                        loadDataFromDexie(); // Reload data from Dexie to ensure consistency
+                    });
+                });
+            });
+        }
+
+        document.getElementById("refresh-button").addEventListener("click", refreshData);
+
+        // Initial data load on page start
+        loadDataFromDexie();
+
+        // Function to check if a row matches all active filters
+        function rowMatches(row, filters) {
+            for(const filter of filters) {
+                if (filter.value !== "") {
+                    const rowValue = row[filter.field] ? String(row[filter.field]).toLowerCase() : "";
+                    if(filter.type === 'like' && !rowValue.includes(filter.value.toLowerCase())){
+                        return false;
+                    }
+                    if(filter.type === '=' && rowValue !== filter.value.toLowerCase()){
+                        return false;
+                    }
+                    if(filter.type === '>=' && new Date(rowValue) < new Date(filter.value)){
+                        return false;
+                    }
+                    if(filter.type === '<=' && new Date(rowValue) > new Date(filter.value)){
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        // Recursive function to find all matching rows in the tree
+        function findMatches(data, filters, matches) {
+            for (const row of data) {
+                if (rowMatches(row, filters)) {
+                    const newRow = {...row};
+                    delete newRow._children;
+                    matches.push(newRow);
+                }
+                if (row._children) {
+                    findMatches(row._children, filters, matches);
+                }
+            }
+        }
+
+        // Filter modal logic
+        document.getElementById("apply-filters").addEventListener("click", function() {
+            var filters = [];
+            var wbsValue = document.getElementById("wbs-filter").value;
+            if (wbsValue) {
+                filters.push({field:"WBS_Code", type:"like", value:wbsValue});
+            }
+
+            var taskValue = document.getElementById("task-filter").value;
+            if (taskValue) {
+                filters.push({field:"text", type:"like", value:taskValue});
+            }
+
+            var priorityValue = document.getElementById("priority-filter").value;
+            if (priorityValue) {
+                filters.push({field:"priority", type:"=", value:priorityValue});
+            }
+
+            var statusValue = document.getElementById("status-filter").value;
+            if (statusValue) {
+                filters.push({field:"status", type:"=", value:statusValue});
+            }
+            
+            var startDateValue = document.getElementById("start-date-filter").value;
+            if(startDateValue){
+                filters.push({field:"start_date", type:">=", value:startDateValue});
+            }
+
+            var endDateValue = document.getElementById("end-date-filter").value;
+            if(endDateValue){
+                filters.push({field:"end_date", type:"<=", value:endDateValue});
+            }
+
+            const activeFilters = filters.filter(f => f.value !== '');
+
+            if (activeFilters.length === 0) {
+                table.setData(originalData);
+                table.options.dataTree = true;
+                table.options.dataTreeStartExpanded = true;
+            } else {
+                const filteredData = [];
+                findMatches(originalData, activeFilters, filteredData);
+                table.options.dataTree = false;
+                table.setData(filteredData);
+            }
+            $('#filter-modal').modal('hide');
+        });
+
+        document.getElementById("clear-filters").addEventListener("click", function() {
+            document.getElementById("filter-form").reset();
+            table.clearFilter();
+            table.setData(originalData);
+            table.options.dataTree = true;
+            table.options.dataTreeStartExpanded = true;
+        });
+
+        $('#start-date-filter').datetimepicker({
+            format:'Y-m-d',
+            timepicker:false
+        });
+        $('#end-date-filter').datetimepicker({
+            format:'Y-m-d',
+            timepicker:false
+        });
+
+        // Make the modal draggable
+        var modal = document.getElementById('filter-modal');
+        var modalDialog = modal.querySelector('.modal-dialog');
+        var modalHeader = modal.querySelector('.modal-header');
+        var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+
+        modalHeader.onmousedown = dragMouseDown;
+
+        function dragMouseDown(e) {
+            e = e || window.event;
+            e.preventDefault();
+            // get the mouse cursor position at startup:
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            document.onmouseup = closeDragElement;
+            // call a function whenever the cursor moves:
+            document.onmousemove = elementDrag;
+        }
+
+        function elementDrag(e) {
+            e = e || window.event;
+            e.preventDefault();
+            // calculate the new cursor position:
+            pos1 = pos3 - e.clientX;
+            pos2 = pos4 - e.clientY;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            // set the element's new position:
+            modalDialog.style.top = (modalDialog.offsetTop - pos2) + "px";
+            modalDialog.style.left = (modalDialog.offsetLeft - pos1) + "px";
+        }
+
+        function closeDragElement() {
+            // stop moving when mouse button is released:
+            document.onmouseup = null;
+            document.onmousemove = null;
+        }
+    </script>
+
+    <footer class="cm-footer" style = "height:1px"></footer>
+
+    <!-- The Clearmin Dashboard JavaScript Libraries -->
+    <script src="Sources/Clearmin_Dashboard_All.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>      
+</html>

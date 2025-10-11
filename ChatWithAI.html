@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">    
+    <!-- The Clearmin Dashboard CSS Libraries -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <link rel="stylesheet" type="text/css" href="Sources/Clearmin_Dashboard_All.css">
+  <!-- Linking Google Fonts For Icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+  <link rel="stylesheet" href="Sources/ai-api.css">
+    <title>Chat with AI</title>
+    </head>
+
+     <!-- JQuery Datapiker -->
+     <script src="Sources/datepiker/jquery.js"></script>
+
+<body class="cm-no-transition cm-2-navbar cm-menu-toggled">
+
+        <div id="cm-menu">
+            <nav class="cm-navbar cm-navbar-turquoise">
+                <div class="cm-flex"><a href="index.html" class="cm-logo"></a></div>
+                <div class="btn btn-turquoise md-menu-white" data-toggle="cm-menu"></div>
+            </nav>
+            <div id="cm-menu-content">
+                <div id="cm-menu-items-wrapper">
+                    <div id="cm-menu-scroller">
+                        <ul class="cm-menu-items">
+                            <li class="cm-submenu">
+                                <a class="sf-house">Main Dashboard <span class="caret"></span></a>
+                                <ul>
+                                    <li><a href="Main_Overview.html">Main Overview</a></li>
+                                    <li><a href="Main_Gantt.html" >Main Gantt</a></li>
+                                    <li><a href="Main_Grid.html">Main Grid</a></li>
+                                    <li><a href="Main_Overview.html">Main Sheet</a></li>
+                                    <li><a href="Main_PowerBi.html">Main PowerBi</a></li>
+                                </ul>
+                            </li>
+                            <li class="cm-submenu" class="active">
+                                <a class="sf-dashboard">Performane Dashboard <span class="caret"></span></a>
+                                <ul>
+                                    <li><a href="Performance_Overview.html" class="active">Performane Overview</a></li>
+                                    <li><a href="Performance_Gantt.html" >Performane Gantt</a></li>
+                                    <li><a href="Performance_Grid.html">Performane Grid</a></li>
+                                </ul>
+                            </li>
+                            <li class="cm-submenu"><a href="#" class="sf-box-full">Documentation Dashboard <span class="caret"></span></a>
+                                <ul>
+                                    <li><a href="Documentation_Overview.html">Documentation Overview</a></li>
+                                    <li><a href="Documentation_Gantt.html" class="active">Documentation Gantt</a></li>
+                                    <li><a href="Documentation_Grid.html">Documentation Grid</a></li>
+                                </ul>   
+                            </li>
+                            <li class="cm-submenu"><a href="#" class="sf-money">Finance Dashboard<span class="caret"></span></a>
+                                <ul>
+                                    <li><a href="Finance_Overview.html">Finance Overview</a></li>
+                                    <li><a href="Finance_Gantt.html" class="active">Finance Gantt</a></li>
+                                    <li><a href="Finance_Grid .html">Finance Grid</a></li>
+                                    <li><a href="Finance_Tabulator.html">Finance Tabulator</a></li>
+                                    <li><a href="Finance_PR_PO_Tracker.html" class="active">PR/PO Tracker</a></li>
+                                    <li><a href="Finance_Expenses.html">Expenses Report</a></li>
+                                    <li><a href="Finance_Trial_Balance.html">Trial Balance</a></li>
+                                </ul>
+                            </li>
+                            <li class="cm-submenu"><a href="#" class="sf-monitor">MEAL Dashboard<span class="caret"></span></a>
+                                <ul>
+                                    <li><a href="MEAL_Overview.html">MEAL Overview</a></li>
+                                    <li><a href="MEAL_Gantt.html" class="active">MEAL Gantt</a></li>
+                                    <li><a href="MEAL_Grid.html">MEAL Grid</a></li>
+                                </ul>
+                            </li>
+                            <li class="cm-submenu"><a href="#" class="sf-profile-group">HR Dashboard<span class="caret"></span></a>
+                                <ul>
+                                    <li><a href="HR_Overview.html">HR Overview</a></li>
+                                    <li><a href="HR_Gantt.html" class="active">HR Gantt</a></li>
+                                    <li><a href="HR_Grid.html">HR Grid</a></li>
+                                </ul>
+                            </li>                           
+                            <li><a href="ChatWithAI.html" class="sf-terminal">Chat with AI</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <header id="cm-header">
+
+            <nav class="cm-navbar cm-navbar-default cm-navbar-slideup">
+                <div class="cm-flex">
+                    <div class="nav-tabs-container">
+                        <ul class="nav nav-tabs">
+                            <li style="border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5" id="OverviewPage" class="active"><a  href="ChatWithAI.html">Chat with Gemeni</a></li>
+
+                        </ul>
+                    </div>
+                </div>
+          
+              
+                         
+
+                <div class="pull-right" style="border-left:1px solid #e5e5e5"><a title="Edit Settings" class="btn btn-default btn-light md-settings" data-bs-toggle="offcanvas" href="#settingbtn" role="button" aria-controls="offcanvasRight"></a></div>
+            </nav>
+
+
+            
+        </header>
+
+
+
+
+        <div id="global">
+          
+            <header class="header">
+                <!-- Header Greetings -->
+                <h1 class="title">Hello, there</h1>
+                <p class="subtitle">How can I help you today?</p>
+            
+
+              </header>
+            
+              <!-- Chat List / Container -->
+              <div class="chat-list"></div>
+            
+              <!-- Typing Area -->
+              <div class="typing-area">
+                <form action="#" class="typing-form">
+                  <div class="input-wrapper">
+                    <input type="text" placeholder="Enter a prompt here" class="typing-input" required />
+                    <button id="send-message-button" class="icon material-symbols-rounded">send</button>
+                  </div>
+                  <div class="action-buttons">
+                    <span id="theme-toggle-button" class="icon material-symbols-rounded">light_mode</span>
+                    <span id="delete-chat-button" class="icon material-symbols-rounded">delete</span>
+                  </div>
+                </form>
+                <p class="disclaimer-text">
+                  Gemini may display inaccurate info, including about people, so double-check its responses.
+                </p>
+              </div>
+        </div>
+
+       
+
+
+          
+
+          
+
+          
+            
+    
+
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="settingbtn" aria-labelledby="offcanvasRightLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasRightLabel">Settings</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    Settings
+  </div>
+        </div>
+
+
+
+
+      <!-- chathistory Area -->
+      <div class="chathistory" hidden="hidden">
+    </div>
+
+
+
+        <script type="importmap">
+            {
+              "imports": {
+                "@google/generative-ai": "https://esm.run/@google/generative-ai"
+              }
+            }
+        </script>
+        
+    
+    
+    
+        <script type="module" src="Sources/ai-api.js"></script>
+
+
+    <!-- The Clearmin Dashboard JavaScript Libraries -->
+        <script src="Sources/Clearmin_Dashboard_All.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    </body>
+</html>

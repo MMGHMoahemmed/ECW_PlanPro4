@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <script src="https://www.gstatic.com/firebasejs/11.2.0/firebase-app-compat.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/11.2.0/firebase-database-compat.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">    
+    <!-- The Clearmin Dashboard CSS Libraries -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <link rel="stylesheet" type="text/css" href="Sources/Clearmin_Dashboard_All.css">
+
+    <!-- dhtmlxGantt-GPL Free Version-->  <!-- Lock -->
+    <script src="Sources/grid_GPL_903.js"></script>
+    <!-- <link rel="stylesheet" href="Sources/dhtmlxgantt-gpl.css">  -->
+    <link rel="stylesheet" href="Sources/grid_GPL_903.css">
+
+  
+
+
+     <!-- JQuery Datapiker -->
+    <script src="Sources/datepiker/jquery.js"></script>
+    <script src="Sources/datepiker/jquery.datetimepicker.full.min.js"></script>
+    <link rel="stylesheet" href="Sources/datepiker/jquery.datetimepicker.min.css">
+
+    <title>Performane Grid</title>
+    </head>
+
+
+
+
+
+
+
+  
+  
+<body class="cm-no-transition cm-2-navbar cm-menu-toggled">
+
+  <div id="cm-menu">
+    <nav class="cm-navbar cm-navbar-turquoise">
+        <div class="cm-flex"><a href="index.html" class="cm-logo"></a></div>
+        <div class="btn btn-turquoise md-menu-white" data-toggle="cm-menu"></div>
+    </nav>
+    <div id="cm-menu-content">
+        <div id="cm-menu-items-wrapper">
+            <div id="cm-menu-scroller">
+                <ul class="cm-menu-items">
+                    <li class="cm-submenu">
+                        <a class="sf-house">Main Dashboard <span class="caret"></span></a>
+                        <ul>
+                            <li><a href="Main_Overview.html">Main Overview</a></li>
+                            <li><a href="Main_Gantt.html" >Main Gantt</a></li>
+                            <li><a href="Main_Grid.html">Main Grid</a></li>
+                            <li><a href="Main_Overview.html">Main Sheet</a></li>
+                            <li><a href="Main_PowerBi.html">Main PowerBi</a></li>
+                        </ul>
+                    </li>
+                    <li class="cm-submenu" class="active">
+                        <a class="sf-dashboard">Performane Dashboard <span class="caret"></span></a>
+                        <ul>
+                            <li><a href="Performance_Overview.html" class="active">Performane Overview</a></li>
+                            <li><a href="Performance_Gantt.html" >Performane Gantt</a></li>
+                            <li><a href="Performance_Grid.html">Performane Grid</a></li>
+                        </ul>
+                    </li>
+                    <li class="cm-submenu"><a href="#" class="sf-box-full">Documentation Dashboard <span class="caret"></span></a>
+                        <ul>
+                            <li><a href="Documentation_Overview.html">Documentation Overview</a></li>
+                            <li><a href="Documentation_Gantt.html" class="active">Documentation Gantt</a></li>
+                            <li><a href="Documentation_Grid.html">Documentation Grid</a></li>
+                        </ul>   
+                    </li>
+                    <li class="cm-submenu"><a href="#" class="sf-money">Finance Dashboard<span class="caret"></span></a>
+                      <ul>
+                          <li><a href="Finance_Overview.html">Finance Overview</a></li>
+                          <li><a href="Finance_Gantt.html" class="active">Finance Gantt</a></li>
+                          <li><a href="Finance_Grid .html">Finance Grid</a></li>
+                          <li><a href="Finance_Tabulator.html">Finance Tabulator</a></li>
+                          <li><a href="Finance_PR_PO_Tracker.html" class="active">PR/PO Tracker</a></li>
+                          <li><a href="Finance_Expenses.html">Expenses Report</a></li>
+                          <li><a href="Finance_Trial_Balance.html">Trial Balance</a></li>
+                      </ul>
+                  </li>
+                    <li class="cm-submenu"><a href="#" class="sf-monitor">MEAL Dashboard<span class="caret"></span></a>
+                        <ul>
+                            <li><a href="MEAL_Overview.html">MEAL Overview</a></li>
+                            <li><a href="MEAL_Gantt.html" class="active">MEAL Gantt</a></li>
+                            <li><a href="MEAL_Grid.html">MEAL Grid</a></li>
+                        </ul>
+                    </li>
+                    <li class="cm-submenu"><a href="#" class="sf-profile-group">HR Dashboard<span class="caret"></span></a>
+                        <ul>
+                            <li><a href="HR_Overview.html">HR Overview</a></li>
+                            <li><a href="HR_Gantt.html" class="active">HR Gantt</a></li>
+                            <li><a href="HR_Grid.html">HR Grid</a></li>
+                        </ul>
+                    </li>                           
+                    <li><a href="ChatWithAI.html" class="sf-terminal">Chat with AI</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <header id="cm-header">
+
+            <nav class="cm-navbar cm-navbar-default cm-navbar-slideup">
+                <div class="cm-flex">
+                    <div class="nav-tabs-container">
+                        <ul class="nav nav-tabs">
+                            <li style="border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5" id="OverviewPage" ><a  href="Performance_Overview.html">Performane Overview</a></li>
+                            <li style="border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5" id="GanttPage"><a  href="Performance_Gantt.html">Performane Gantt</a></li>
+                            <li style="border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5" id="GridPage" class="active"><a  href="Performance_Grid.html">Performane Grid</a></li>
+                        </ul>
+                    </div>
+                </div>
+          
+              
+                         
+       
+
+                <div class="pull-right" style="border-left:1px solid #e5e5e5"><a title="Actions" class="btn btn-default btn-light md-tune" data-bs-toggle="offcanvas" href="#actions" role="button" aria-controls="offcanvasRight"></a></div>
+                <div class="pull-right" style="border-left:1px solid #e5e5e5"><a title="Filter Content" class="btn btn-default btn-light md-filter-list" data-bs-toggle="offcanvas" href="#filters" role="button" aria-controls="offcanvasRight"></a></div>
+                <div class="pull-right" style="border-left:1px solid #e5e5e5"><a title="Edit Layout" class="btn btn-default btn-light md-palette" data-bs-toggle="offcanvas" href="#layout" role="button" aria-controls="offcanvasRight"></a></div>
+                <div class="pull-right" style="border-left:1px solid #e5e5e5"><a title="Manage Colmuns" class="btn btn-default btn-light md-remove-red-eye" data-toggle="modal" data-target="#colmuns" role="button"></a></div>
+                <div class="pull-right" style="border-left:1px solid #e5e5e5"><a title="Edit Settings" class="btn btn-default btn-light md-settings" data-bs-toggle="offcanvas" href="#settingbtn" role="button" aria-controls="offcanvasRight"></a></div>
+            </nav>
+
+
+            
+        </header>
+
+
+
+
+
+          
+   <div id="grid_container" class=" cm-container-white container-fluid" style="height: 100%; width: 100%; position: relative;"></div>
+
+       
+
+
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="actions" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasRightLabel">Actions</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+              Actions
+            </div>
+          
+          
+          
+            
+          </div>
+
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="filters" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasRightLabel">Filters</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+              Filter
+            </div>
+          
+          
+          
+            
+          </div>
+
+
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="layout" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasRightLabel">Edit Layout</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+              Edit Layouts
+            </div>
+          
+          
+          
+            
+          </div>
+
+
+        
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="settingbtn" aria-labelledby="offcanvasRightLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasRightLabel">Settings</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    Settings
+  </div>
+
+
+
+
+</div>
+
+ 
+
+<div id="colmuns" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="btn btn-default" data-dismiss="modal">X</button>
+              <h4 class="modal-title" id="myModalLabel">
+                &nbsp;  Manage Colmuns
+                  <a class="anchorjs-link" href="#myModalLabel"><span class="anchorjs-icon"></span></a>
+              </h4>
+          </div>
+          <div class="modal-body">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Colmun Name</th>
+                  <th scope="col">Visibility</th>
+                
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>WBS</td>
+                  <td colspan = "2" ><div class="btn-group" role="group">
+                      <button type="button" class="btn btn-default" onclick="grid.showColumn('WBS_Code');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                      <button type="button" class="btn btn-default" onclick="grid.hideColumn('WBS_Code');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                  </div></td>
+                <tr>
+                  <th scope="row">2</th>
+                  <td>Task Name</td>
+                  <td><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('text');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('text');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+
+                </tr>
+                <tr>
+                  <th scope="row">3</th>
+                  <td>Priority</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('priority');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('priority');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+
+                </tr>
+                <tr>
+                  <th scope="row">4</th>
+                  <td>Progress</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('progress');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('progress');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+
+                </tr>
+                <tr>
+                  <th scope="row">5</th>
+                  <td>Status</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('status');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('status');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+
+                </tr>
+                <tr>
+                  <th scope="row">6</th>
+                  <td>Start Date</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('start_date');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('start_date');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+
+                </tr>
+                <tr>
+                  <th scope="row">7</th>
+                  <td>End Date</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('end_date');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('end_date');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+
+                </tr>
+                <tr>
+                  <th scope="row">8</th>
+                  <td>Duration</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('duration');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('duration');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+
+                </tr>
+                <tr>
+                  <th scope="row">9</th>
+                  <td>Implemention Start Date</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('implemented_start');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('implemented_start');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+
+                </tr>
+                <tr>
+                  <th scope="row">10</th>
+                  <td>Implemention End Date</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('implemented_end');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('implemented_end');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+
+                </tr>
+                <tr>
+                  <th scope="row">11</th>
+                  <td>Implmentaion Status</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('implmentaion_status');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('implmentaion_status');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">12</th>
+                  <td>Implmentation Notes</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('implmentation_notes');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('implmentation_notes');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">13</th>
+                  <td>Workers</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('workers');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('workers');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">14</th>
+                  <td>Remarkable</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('remarkable');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('remarkable');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">15</th>
+                  <td>Label</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('label');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('label');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+              </tbody>
+            </table>                 
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+      </div>
+      <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+
+<script>
+
+
+  const grid = new dhx.Grid("grid_container", {
+      columns: [
+          colmundeclaration.id,
+          colmundeclaration.taskid, 
+          colmundeclaration.type, 
+          colmundeclaration.parent,
+
+
+
+          colmundeclaration.wbscode,
+          colmundeclaration.task,
+          colmundeclaration.priority,
+          colmundeclaration.progress,
+          colmundeclaration.status,
+          colmundeclaration.startdate,
+          colmundeclaration.enddate,
+          colmundeclaration.duration,
+          colmundeclaration.implemented_start,
+          colmundeclaration.implemented_end,
+          colmundeclaration.implmentaion_status,
+          colmundeclaration.implmentation_notes,
+          colmundeclaration.workers,
+          colmundeclaration.challenges,
+          colmundeclaration.remarkable,
+          colmundeclaration.label,
+     
+      ],
+      selection: true,
+      editable: true,
+      adjust: false,
+      sortable: true,
+      resizable: true,
+      leftSplit: 6,
+      multiselection: true,
+      
+  });
+
+
+
+firebaseadapter ();
+
+//document.body.style.zoom = "80%";
+
+
+
+
+
+ 
+
+
+</script>
+
+
+<footer class="cm-footer" style = "height:1px">
+
+  
+</footer>
+
+
+
+
+<!-- The Clearmin Dashboard JavaScript Libraries -->
+<script src="Sources/Clearmin_Dashboard_All.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+
+</body>      
+</html>

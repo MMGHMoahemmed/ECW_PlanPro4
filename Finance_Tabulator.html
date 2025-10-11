@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <script src="https://www.gstatic.com/firebasejs/11.2.0/firebase-app-compat.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/11.2.0/firebase-database-compat.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">    
+    <!-- The Clearmin Dashboard CSS Libraries -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <link rel="stylesheet" type="text/css" href="Sources/Clearmin_Dashboard_All.css">
+
+
+
+    <!-- dhtmlxGantt-GPL Free Version-->  <!-- Lock -->
+    <script src="Sources/grid_GPL_903.js"></script>
+    <!-- <link rel="stylesheet" href="Sources/dhtmlxgantt-gpl.css">  -->
+    <link rel="stylesheet" href="Sources/grid_GPL_903.css">
+
+  
+
+
+     <!-- JQuery Datapiker -->
+    <script src="Sources/datepiker/jquery.js"></script>
+    <script src="Sources/datepiker/jquery.datetimepicker.full.min.js"></script>
+    <link rel="stylesheet" href="Sources/datepiker/jquery.datetimepicker.min.css">
+    <link href="https://unpkg.com/tabulator-tables@5.6.0/dist/css/tabulator_modern.css" rel="stylesheet">
+
+    <style>
+        body { font-family: sans-serif; }
+        #example-table {
+            border: 1px solid #333;
+        }
+        .tabulator-edit-select-dropdown,
+        .tabulator-edit-select-list {
+            z-index: 100; /* Ensure dropdown is above other elements */
+        }
+        .tabulator-col-title{
+            color: #333;
+        }.tabulator .tabulator-header {
+
+  border-bottom: 1px solid #333;
+  background-color: #fff;
+  color: #333;
+
+}
+.tabulator .tabulator-header .tabulator-col.tabulator-moving {
+  position: absolute;
+  border: 1px solid #333;
+  background: #e6e6e6;
+  pointer-events: none;
+}
+.tabulator .tabulator-footer {
+  border-top: 1px solid #999;
+  background-color: #fff;
+  color: #333;
+  font-weight: bold;
+  white-space: nowrap;
+  user-select: none;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+}
+.tabulator-row.tabulator-group .tabulator-arrow {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin-right: 16px;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-right: 0;
+  border-left: 6px solid #333;
+  vertical-align: middle;
+}
+.tabulator-row .tabulator-cell:first-child {
+  border-left: 10px solid #333;
+}
+.tabulator-row:nth-child(even) .tabulator-cell:first-child {
+  border-left: 10px solid #33333372;
+}
+.tabulator .tabulator-footer .tabulator-calcs-holder {
+  border-top: 3px solid #333 !important;
+  border-bottom: 2px solid #333 !important;
+}
+#filter-modal .modal-dialog {
+    margin: 0;
+    position: absolute;
+    top: 50px;
+    left: 50px;
+}
+
+#filter-modal .modal-header {
+    cursor: move;
+}
+    </style>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.6.0/firebase-database-compat.js"></script>
+    <!-- Tabulator JS -->
+    <script src="https://unpkg.com/tabulator-tables@5.6.0/dist/js/tabulator.min.js"></script>
+
+
+    <title>Finance Tabulator</title>
+    </head>
+
+
+
+
+
+
+
+  
+  
+<body class="cm-no-transition cm-2-navbar cm-menu-toggled">
+        <div id="cm-menu">
+            <nav class="cm-navbar cm-navbar-turquoise">
+                <div class="cm-flex"><a href="index.html" class="cm-logo"></a></div>
+                <div class="btn btn-turquoise md-menu-white" data-toggle="cm-menu"></div>
+            </nav>
+            <div id="cm-menu-content">
+                <div id="cm-menu-items-wrapper">
+                    <div id="cm-menu-scroller">
+                        <ul class="cm-menu-items">
+                            <li class="cm-submenu">
+                                <a class="sf-house">Main Dashboard <span class="caret"></span></a>
+                                <ul>
+                                    <li><a href="Main_Overview.html">Main Overview</a></li>
+                                    <li><a href="Main_Gantt.html" >Main Gantt</a></li>
+                                    <li><a href="Main_Grid.html">Main Grid</a></li>
+                                    <li><a href="Main_Overview.html">Main Sheet</a></li>
+                                    <li><a href="Main_PowerBi.html">Main PowerBi</a></li>
+                                </ul>
+                            </li>
+                            <li class="cm-submenu" class="active">
+                                <a class="sf-dashboard">Performane Dashboard <span class="caret"></span></a>
+                                <ul>
+                                    <li><a href="Performance_Overview.html" class="active">Performane Overview</a></li>
+                                    <li><a href="Performance_Gantt.html" >Performane Gantt</a></li>
+                                    <li><a href="Performance_Grid.html">Performane Grid</a></li>
+                                </ul>
+                            </li>
+                            <li class="cm-submenu"><a href="#" class="sf-box-full">Documentation Dashboard <span class="caret"></span></a>
+                                <ul>
+                                    <li><a href="Documentation_Overview.html">Documentation Overview</a></li>
+                                    <li><a href="Documentation_Gantt.html" class="active">Documentation Gantt</a></li>
+                                    <li><a href="Documentation_Grid.html">Documentation Grid</a></li>
+                                </ul>   
+                            </li>
+                            <li class="cm-submenu"><a href="#" class="sf-money">Finance Dashboard<span class="caret"></span></a>
+                                <ul>
+                                    <li><a href="Finance_Overview.html">Finance Overview</a></li>
+                                    <li><a href="Finance_Gantt.html" class="active">Finance Gantt</a></li>
+                                    <li><a href="Finance_Grid .html">Finance Grid</a></li>
+                                    <li><a href="Finance_Tabulator.html">Finance Tabulator</a></li>
+                                    <li><a href="Finance_PR_PO_Tracker.html" class="active">PR/PO Tracker</a></li>
+                                    <li><a href="Finance_Expenses.html">Expenses Report</a></li>
+                                    <li><a href="Finance_Trial_Balance.html">Trial Balance</a></li>
+                                </ul>
+                            </li>
+                            <li class="cm-submenu"><a href="#" class="sf-monitor">MEAL Dashboard<span class="caret"></span></a>
+                                <ul>
+                                    <li><a href="MEAL_Overview.html">MEAL Overview</a></li>
+                                    <li><a href="MEAL_Gantt.html" class="active">MEAL Gantt</a></li>
+                                    <li><a href="MEAL_Grid.html">MEAL Grid</a></li>
+                                </ul>
+                            </li>
+                            <li class="cm-submenu"><a href="#" class="sf-profile-group">HR Dashboard<span class="caret"></span></a>
+                                <ul>
+                                    <li><a href="HR_Overview.html">HR Overview</a></li>
+                                    <li><a href="HR_Gantt.html" class="active">HR Gantt</a></li>
+                                    <li><a href="HR_Grid.html">HR Grid</a></li>
+                                </ul>
+                            </li>                           
+                            <li><a href="ChatWithAI.html" class="sf-terminal">Chat with AI</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <header id="cm-header">
+
+            <nav class="cm-navbar cm-navbar-default cm-navbar-slideup">
+                <div class="cm-flex">
+                    <div class="nav-tabs-container">
+                        <ul class="nav nav-tabs">
+                          <li style="border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5" id="OverviewPage" ><a  href="Finance_Overview.html">Finance Overview</a></li>
+                          <li style="border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5" id="GanttPage"  ><a  href="Finance_Gantt.html">Finance Gantt</a></li>
+                          <li style="border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5" id="GridPage" ><a  href="Finance_Grid .html">Finance Grid</a></li>
+                          <li style="border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5" id="GridPage" class="active"><a  href="Finance_Tabulator.html">Finance Tabulator</a></li>
+                          <li style="border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5" id="OverviewPage" ><a  href="Finance_PR_PO_Tracker.html">PR/PO Tracker</a></li>
+                          <li style="border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5" id="GanttPage"   ><a  href="Finance_Expenses.html">Expenses Report</a></li>
+                          <li style="border-left:1px solid #e5e5e5; border-right:1px solid #e5e5e5" id="GridPage"><a  href="Finance_Trial_Balance.html">Trial Balance</a></li>
+                        </ul>
+                    </div>
+                </div>
+          
+              
+                         
+       
+
+                <div class="pull-right" style="border-left:1px solid #e5e5e5"><button id="filter-button" class="btn btn-default btn-light" data-toggle="modal" data-target="#filter-modal">Filter</button></div>
+                <div class="pull-right" style="border-left:1px solid #e5e5e5"><a title="Actions" class="btn btn-default btn-light md-tune" data-bs-toggle="offcanvas" href="#actions" role="button" aria-controls="offcanvasRight"></a></div>
+                <div class="pull-right" style="border-left:1px solid #e5e5e5"><a title="Filter Content" class="btn btn-default btn-light md-filter-list" data-bs-toggle="offcanvas" href="#filters" role="button" aria-controls="offcanvasRight"></a></div>
+                <div class="pull-right" style="border-left:1px solid #e5e5e5"><a title="Edit Layout" class="btn btn-default btn-light md-palette" data-bs-toggle="offcanvas" href="#layout" role="button" aria-controls="offcanvasRight"></a></div>
+                <div class="pull-right" style="border-left:1px solid #e5e5e5"><a title="Manage Colmuns" class="btn btn-default btn-light md-remove-red-eye" data-toggle="modal" data-target="#colmuns" role="button"></a></div>
+                <div class="pull-right" style="border-left:1px solid #e5e5e5"><a title="Edit Settings" class="btn btn-default btn-light md-settings" data-bs-toggle="offcanvas" href="#settingbtn" role="button" aria-controls="offcanvasRight"></a></div>
+            </nav>
+
+
+            
+        </header>
+
+
+
+
+
+          
+   <div id="example-table" class=" cm-container-white container-fluid" style="height: 100%; width: 100%; position: relative;"></div>
+
+       
+
+
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="actions" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasRightLabel">Actions</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+              Actions
+            </div>
+          
+          
+          
+            
+          </div>
+
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="filters" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasRightLabel">Filters</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+              Filter
+            </div>
+          
+          
+          
+            
+          </div>
+
+
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="layout" aria-labelledby="offcanvasRightLabel">
+            <div class="offcanvas-header">
+              <h5 class="offcanvas-title" id="offcanvasRightLabel">Edit Layout</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+              Edit Layouts
+            </div>
+          
+          
+          
+            
+          </div>
+
+
+        
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="settingbtn" aria-labelledby="offcanvasRightLabel">
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasRightLabel">Settings</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    Settings
+  </div>
+
+
+
+
+</div>
+
+ 
+
+<div id="colmuns" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="btn btn-default" data-dismiss="modal">X</button>
+              <h4 class="modal-title" id="myModalLabel">
+                &nbsp;  Manage Colmuns
+                  <a class="anchorjs-link" href="#myModalLabel"><span class="anchorjs-icon"></span></a>
+              </h4>
+          </div>
+          <div class="modal-body">
+            <table class="table table-striped table-hover">
+              <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Colmun Name</th>
+                  <th scope="col">Visibility</th>
+                
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>WBS</td>
+                  <td colspan = "2" ><div class="btn-group" role="group">
+                      <button type="button" class="btn btn-default" onclick="grid.showColumn('WBS_Code');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                      <button type="button" class="btn btn-default" onclick="grid.hideColumn('WBS_Code');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                  </div></td>
+                <tr>
+                  <th scope="row">2</th>
+                  <td>Task Name</td>
+                  <td><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('text');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('text');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+
+                </tr>
+                <tr>
+                  <th scope="row">3</th>
+                  <td>Priority</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('priority');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('priority');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+
+                </tr>
+                <tr>
+                  <th scope="row">4</th>
+                  <td>Progress</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('progress');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('progress');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+
+                </tr>
+                <tr>
+                  <th scope="row">5</th>
+                  <td>Status</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('status');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('status');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+
+                </tr>
+                <tr>
+                  <th scope="row">6</th>
+                  <td>Start Date</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('start_date');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('start_date');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+
+                </tr>
+                <tr>
+                  <th scope="row">7</th>
+                  <td>End Date</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('end_date');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('end_date');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+
+                </tr>
+                <tr>
+                  <th scope="row">8</th>
+                  <td>Finance Code</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Fin_Code');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Fin_Code');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+
+                </tr>
+                <tr>
+                  <th scope="row">9</th>
+                  <td>Item Name</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Item_Name');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Item_Name');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+
+                </tr>
+                <tr>
+                  <th scope="row">10</th>
+                  <td>Cost in Dollar</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Cost_Dollar');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Cost_Dollar');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+
+                </tr>
+                <tr>
+                  <th scope="row">11</th>
+                  <td>Cost in Yemeni</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Cost_Yemeni');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Cost_Yemeni');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">12</th>
+                  <td>Fin/Log Description</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Fin_Log_Description');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Fin_Log_Description');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">13</th>
+                  <td>PR Status</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('PR_Status');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('PR_Status');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">14</th>
+                  <td>PR Date</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('PR_Date');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('PR_Date');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">15</th>
+                  <td>PO Status</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('PO_Status');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('PO_Status');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">16</th>
+                  <td>PO Date</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('PO_Date');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('PO_Date');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">17</th>
+                  <td>Parent Item</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Parent_Item');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Parent_Item');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">18</th>
+                  <td>Allocated budget</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Allocated_budget');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Allocated_budget');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">19</th>
+                  <td>Spent</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Spent');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Spent');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">20</th>
+                  <td>The Balance</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('The_Balance');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('The_Balance');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">21</th>
+                  <td>Precentage</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Precentage');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Precentage');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">22</th>
+                  <td>Changes in Budget</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Changes_in_Budget');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Changes_in_Budget');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">23</th>
+                  <td>Jan FC</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Jan_FC');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Jan_FC');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">24</th>
+                  <td>Feb_FC</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Feb_FC');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Feb_FC');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">25</th>
+                  <td>Mar_FC</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Mar_FC');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Mar_FC');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">26</th>
+                  <td>Apr_FC</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Apr_FC');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Apr_FC');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">27</th>
+                  <td>May_FC</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('May_FC');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('May_FC');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">28</th>
+                  <td>Jun_FC</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Jun_FC');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Jun_FC');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">30</th>
+                  <td>Jul_FC</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Jul_FC');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Jul_FC');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">31</th>
+                  <td>Aug_FC</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Aug_FC');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Aug_FC');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">32</th>
+                  <td>Sep_FC</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Sep_FC');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Sep_FC');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">33</th>
+                  <td>Oct_FC</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Oct_FC');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Oct_FC');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">34</th>
+                  <td>Nov_FC</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Nov_FC');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Nov_FC');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">35</th>
+                  <td>Dec_FC</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Dec_FC');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Dec_FC');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">36</th>
+                  <td>Total</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Total');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Total');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">37</th>
+                  <td>Final Remaining</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('final_remaining');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('final_remaining');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+                <tr>
+                  <th scope="row">38</th>
+                  <td>Finance Notes</td>
+                  <td colspan = "2"><div class="btn-group" role="group">
+                    <button type="button" class="btn btn-default" onclick="grid.showColumn('Fin_Notes');"><i class="fa fa-fw fa-eye [&#xf06e;]"></i></button>
+                    <button type="button" class="btn btn-default" onclick="grid.hideColumn('Fin_Notes');"><i class="fa fa-fw fa-eye-slash [&#xf070;]"></i></button>
+                </div></td>
+                </tr>
+              </tbody>
+            </table>                 
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+      </div>
+      <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+<div id="filter-modal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Filter Columns</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="filter-form">
+                    <div class="form-group">
+                        <label for="wbs-filter">WBS Code</label>
+                        <input type="text" id="wbs-filter" class="form-control" placeholder="Filter by WBS Code">
+                    </div>
+                    <div class="form-group">
+                        <label for="task-filter">Task Description</label>
+                        <input type="text" id="task-filter" class="form-control" placeholder="Filter by Task Description">
+                    </div>
+                    <div class="form-group">
+                        <label for="priority-filter">Priority</label>
+                        <select id="priority-filter" class="form-control">
+                            <option value="">All</option>
+                            <option value="High">High</option>
+                            <option value="Mid">Mid</option>
+                            <option value="Low">Low</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="status-filter">Status</label>
+                        <select id="status-filter" class="form-control">
+                            <option value="">All</option>
+                            <option value="Not Started">Not Started</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Done">Done</option>
+                            <option value="Canceled">Canceled</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="fin-code-filter">Finance Code</label>
+                        <input type="text" id="fin-code-filter" class="form-control" placeholder="Filter by Finance Code">
+                    </div>
+                    <div class="form-group">
+                        <label for="item-name-filter">Item Name</label>
+                        <input type="text" id="item-name-filter" class="form-control" placeholder="Filter by Item Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="pr-status-filter">PR Status</label>
+                        <select id="pr-status-filter" class="form-control">
+                            <option value="">All</option>
+                            <option value="Not Started">Not Started</option>
+                            <option value="Prepared">Prepared</option>
+                            <option value="Submited">Submited</option>
+                            <option value="Canceled">Canceled</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="po-status-filter">PO Status</label>
+                        <select id="po-status-filter" class="form-control">
+                            <option value="">All</option>
+                            <option value="Not Started">Not Started</option>
+                            <option value="Paid/Deleivered">Paid/Deleivered</option>
+                            <option value="Archeived/Done">Archeived/Done</option>
+                            <option value="Canceled">Canceled</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="apply-filters" class="btn btn-primary">Apply</button>
+                <button type="button" id="clear-filters" class="btn btn-secondary">Clear</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+  // Firebase Configuration (Replace with your actual config)
+  const firebaseConfig = {
+  apiKey: "AIzaSyCWk0lMGXEorjKGFKCQdTl0zeuWW7ahEps",
+  authDomain: "ecwnmo.firebaseapp.com",
+  databaseURL: "https://ecwnmo-default-rtdb.firebaseio.com",
+  projectId: "ecwnmo",
+  storageBucket: "ecwnmo.firebasestorage.app",
+  messagingSenderId: "761450479043",
+  appId: "1:761450479043:web:a63922e822d84e4d1c1176",
+  measurementId: "G-3G9DZD0RRL"
+  };
+
+  // Initialize Firebase
+  const app = firebase.initializeApp(firebaseConfig);
+  const db = firebase.database(app);
+  const dbRef = firebase.database().ref('tasks'); // Path in your Firebase Realtime Database
+
+  var tableData = []; // Will be populated from Firebase
+  var nestedTableData = []; // Will store nested data
+
+// Function to transform flat data into nested structure based on WBS_Code
+function transformDataToNested(data) {
+      const nestedData = [];
+      const codeMap = {};
+
+      data.forEach(item => {
+          const wbsCode = item.WBS_Code;
+          const parts = wbsCode.split('.');
+          let currentLevel = nestedData;
+          let currentCode = '';
+
+          for (let i = 0; i < parts.length; i++) {
+              const part = parts[i];
+              const levelCode = currentCode ? `${currentCode}.${part}` : part;
+              let existingItem = codeMap[levelCode];
+
+              if (!existingItem) {
+                  // Lookup the correct data item from 'data' based on levelCode
+                  const levelDataItem = data.find(d => d.WBS_Code === levelCode);
+
+                  if (levelDataItem) {
+                      existingItem = { ...levelDataItem, id: levelDataItem.id, _children: [] };
+                      console.log("transformDataToNested - Creating item:", levelCode, "Text:", levelDataItem.text, "New Item Text:", existingItem.text); // Text Logging
+                      codeMap[levelCode] = existingItem;
+
+                      if (currentCode) {
+                          const parentItem = codeMap[currentCode];
+                          if (parentItem) {
+                              parentItem._children.push(existingItem);
+                          }
+                      } else {
+                          currentLevel.push(existingItem);
+                      }
+                  } else {
+                      console.warn("transformDataToNested - Data item not found for WBS_Code:", levelCode);
+                  }
+              }
+              currentLevel = existingItem._children;
+              currentCode = levelCode;
+          }
+      });
+
+      // Filter out items that are only intermediate nodes
+      function filterIntermediateNodes(items) {
+          return items.filter(item => {
+              if (item._children && item._children.length > 0) {
+                  item._children = filterIntermediateNodes(item._children);
+                  return item.text || item.Allocated_budget || item._children.length > 0;
+              }
+              return true;
+          });
+      }
+      return filterIntermediateNodes(nestedData);
+  }
+
+  // Custom bottomCalc function to sum values in the entire tree
+  var customTreeSum = function(values, data, calcParams){
+      let sum = 0;
+
+      function recursiveSum(items) {
+          items.forEach(item => {
+              let value = parseFloat(item[calcParams.field]); // Parse value as float
+              if (!isNaN(value)) { // Check if value is a number
+                  sum += value;
+              }
+              if (item._children && item._children.length > 0) {
+                  recursiveSum(item._children); // Recurse into children
+              }
+          });
+      }
+
+      recursiveSum(nestedTableData); // Use the globally available nestedTableData
+      return sum;
+  };
+
+
+  var table = new Tabulator("#example-table", {
+      height: "100%",
+      data: [], // Initial empty data, will be loaded from Firebase
+      dataTree: true,
+      dataTreeStartExpanded: true,
+      dataTreeElementColumn: "text",
+      layout: "fitColumns",
+      movableColumns: true,
+      columns: [
+
+          { title: "WBS Code", field: "WBS_Code", width: 100, editable:true,frozen:true, headerFilter:true, headerFilterPlaceholder:"Search..." },
+          { title: "Task Description", field: "text", width: 300,  editable: true, headerFilter:true, frozen:true, headerFilterPlaceholder:"Search..." }, // Header Filter enabled
+          { title: "Priority", field: "priority", width: 100,headerFilter:"list", headerFilterParams:{values:["High", "Mid", "Low"]}, editor:"select",editorParams:{values:["High", "Mid", "Low"]}, editable: true },
+          { title: "Progress", field: "progress", width: 100, editor:"number", editable: false, formatter:"progress", formatterParams:{
+              min:0,
+              max:1,
+              color:["green"],
+              legendColor:"#000000",
+              legendAlign:"center",
+          } },
+          { title: "Status", field: "status", width: 150, editor:"select", editorParams:{values:["Not Started", "In Progress", "Done", "Canceled"]}, editable: true, headerFilter:"list", headerFilterParams:{values:["Not Started", "In Progress", "Done", "Canceled"]} }, // Header Filter "list" with options
+          {title:"Start Date", field:"start_date", width: 150, formatter:function(cell, formatterParams, onRendered){
+              var start_date = cell.getValue();
+              intdate = new Date(start_date);
+              var year = intdate.getFullYear();
+              var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+              var month = months[intdate.getMonth()];
+              var date = intdate.getDate();
+              var time = date + ' ' + month + ' ' + year;  
+                  return time; //return the contents of the cell;
+              }
+              },
+              {title:"End Date", field:"end_date", width: 150, formatter:function(cell, formatterParams, onRendered){
+              var end_date = cell.getValue();
+              intdate = new Date(end_date);
+              var year = intdate.getFullYear();
+              var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+              var month = months[intdate.getMonth()];
+              var date = intdate.getDate();
+              var time = date + ' ' + month + ' ' + year;  
+                  return time; //return the contents of the cell;
+              }
+              },
+          { title: "Finance Code", field: "Fin_Code", width: 100, editable: true,headerFilter:true, headerFilterPlaceholder:"Search..." },
+          { title: "Item Name", field: "Item_Name", width: 100, editable: true, headerFilter:true, headerFilterPlaceholder:"Search..." },
+          { title: "Budget Item Name", field: "Budget_Item_Name", width: 100, editable: true, headerFilter:true, headerFilterPlaceholder:"Search..." },
+          { title: "Parent Item Name", field: "Parent_Item", width: 100, editable: true, headerFilter:true, headerFilterPlaceholder:"Search..."  },
+
+          {title:"Cost in Dollar", field:"Cost_Dollar", width: 100, editor:"number", bottomCalc: customTreeSum, bottomCalcParams:{field:"Cost_Dollar"}, formatter:function(cell, formatterParams, onRendered){
+                  var dollar = cell.getValue();
+
+                  if (dollar === undefined){
+                      return "$ " + 0 ;
+                  } else {
+                      return "$ " + dollar ;
+
+                  }
+      
+              },
+          },
+          {title:"Cost in Yemeni", field:"Cost_Yemeni", width: 100, editor:"number", bottomCalc: customTreeSum, bottomCalcParams:{field:"Cost_Yemeni"}, formatter:function(cell, formatterParams, onRendered){
+                  var yemeni = cell.getValue();
+
+                  if (yemeni === undefined){
+                      return "YE" + 0 ;
+                  } else {
+                      return "YE" + yemeni ;
+
+                  }
+      
+              },
+          },
+          { title: "Fin/Log Description", field: "Fin_Log_Description", width: 100, editable: true, headerFilter:true, headerFilterPlaceholder:"Search..." },
+          { title: "PR Status", field: "PR_Status", width: 150, editor:"select", editorParams:{values:["Not Started", "Prepared", "Submited", "Canceled"]}, editable: true, headerFilter:"list", headerFilterParams:{values:["Not Started", "Prepared", "Submited", "Canceled"]} },
+          {title:"PR Date", field:"PR_Date", width: 150, formatter:function(cell, formatterParams, onRendered){
+              var PR_Date = cell.getValue();
+              if (PR_Date === undefined){
+                      return "" ;
+                  } else {
+                      intdate = new Date(PR_Date);
+              var year = intdate.getFullYear();
+              var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+              var month = months[intdate.getMonth()];
+              var date = intdate.getDate();
+              var time = date + ' ' + month + ' ' + year;  
+                  return time; //return the contents of the cell;
+                  } 
+              }
+              },
+          { title: "PO Status", field: "PO_Status", width: 150, editor:"select", editorParams:{values:["Not Started", "Paid/Deleivered", "Archeived/Done", "Canceled"]}, editable: true, headerFilter:"list", headerFilterParams:{values:["Not Started", "Paid/Deleivered", "Archeived/Done", "Canceled"]} },
+          {title:"PO Date", field:"PO_Date", width: 150, formatter:function(cell, formatterParams, onRendered){
+              var PO_Date = cell.getValue();
+              if (PO_Date === undefined){
+                      return "" ;
+                  } else {
+                      intdate = new Date(PO_Date);
+              var year = intdate.getFullYear();
+              var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+              var month = months[intdate.getMonth()];
+              var date = intdate.getDate();
+              var time = date + ' ' + month + ' ' + year;  
+                  return time; //return the contents of the cell;
+                  } 
+              }
+              },     
+          { title: "Allocated Budget", field: "Allocated_budget", width: 150, editor:"number", editable: true, bottomCalc: customTreeSum, bottomCalcParams:{field:"Allocated_budget"}, mutateLink:"The_Balance",mutator:function(value, data){
+
+if (value === undefined){
+  return  0 ;
+} else {
+  return Number(value);
+
+}     
+
+},formatter:function(cell, formatterParams, onRendered){
+              var Allocated_budget = cell.getValue();
+
+                  return "$" + Allocated_budget; //return the contents of the cell;
+                 
+              }}, // Custom Footer Sum
+          { title: "Spent", field: "Spent", width: 100, editor:"number", editable: true, bottomCalc: customTreeSum, bottomCalcParams:{field:"Spent"}, mutateLink:"The_Balance",mutator:function(value, data){
+
+if (value === undefined){
+  return  0 ;
+} else {
+  return Number(value);
+
+}     
+
+},formatter:function(cell, formatterParams, onRendered){
+              var Spent = cell.getValue();
+
+                  return "$" + Spent; //return the contents of the cell;
+                 
+              } },
+          { title: "The Balance", field: "The_Balance", width: 150, editor:"number", editable: false , bottomCalc: customTreeSum, bottomCalcParams:{field:"The_Balance"}, mutator:function(value, data){
+
+              if (value === undefined){
+                      return  0 ;
+                  } else {
+                      return data.Allocated_budget - data.Spent;
+
+                  }     
+ 
+           },formatter:function(cell, formatterParams, onRendered){
+              var The_Balance = cell.getValue();
+
+                  return "$" + The_Balance; //return the contents of the cell;
+                 
+              }  },        
+          // Custom Footer Sum
+          { title: "Precentage", field: "Precentage", width: 100, editor:"number", editable: false, mutator:function(value, data){
+
+          if (value === undefined){
+                  return  0 ;
+              } else {
+                  return (+data.Spent / +data.Allocated_budget) * 100;
+
+              }     
+
+          },formatter:function(cell, formatterParams, onRendered){
+              var Precentage = cell.getValue();
+
+                  return Precentage + "%"; //return the contents of the cell;
+                 
+              }  }, // Custom Footer Sum
+          { title: "Changes_in_Budget", field: "Changes_in_Budget", width: 150, editable: true },
+
+          { title: "Jan_FC", field: "Jan_FC", width: 100, editor:"number", editable: true, bottomCalc: customTreeSum, bottomCalcParams:{field:"Jan_FC"}, mutateLink:"Total" , mutator:function(value, data){
+
+if (value === undefined){
+  return  0 ;
+} else {
+  return Number(value);
+
+}     
+
+},formatter:function(cell, formatterParams, onRendered){
+              var Jan_FC = cell.getValue();
+
+                  return "$" + Jan_FC; //return the contents of the cell;
+                 
+              }},
+          { title: "Feb_FC", field: "Feb_FC", width: 100, editor:"number", editable: true, bottomCalc: customTreeSum, bottomCalcParams:{field:"Feb_FC"}, mutateLink:"Total" , mutator:function(value, data){
+
+if (value === undefined){
+  return  0 ;
+} else {
+  return Number(value);
+
+}     
+
+},formatter:function(cell, formatterParams, onRendered){
+              var Feb_FC = cell.getValue();
+
+                  return "$" + Feb_FC; //return the contents of the cell;
+                 
+              }},
+          { title: "Mar_FC", field: "Mar_FC", width: 100, editor:"number", editable: true, bottomCalc: customTreeSum, bottomCalcParams:{field:"Mar_FC"}, mutateLink:"Total" , mutator:function(value, data){
+
+if (value === undefined){
+  return  0 ;
+} else {
+  return Number(value);
+
+}     
+
+},formatter:function(cell, formatterParams, onRendered){
+              var Mar_FC = cell.getValue();
+
+                  return "$" + Mar_FC; //return the contents of the cell;
+                 
+              }},
+          { title: "Apr_FC", field: "Apr_FC", width: 100, editor:"number", editable: true, bottomCalc: customTreeSum, bottomCalcParams:{field:"Apr_FC"}, mutateLink:"Total" , mutator:function(value, data){
+
+if (value === undefined){
+  return  0 ;
+} else {
+  return Number(value);
+
+}     
+
+},formatter:function(cell, formatterParams, onRendered){
+              var Apr_FC = cell.getValue();
+
+                  return "$" + Apr_FC; //return the contents of the cell;
+                 
+              }},
+          { title: "May_FC", field: "May_FC", width: 100, editor:"number", editable: true, bottomCalc: customTreeSum, bottomCalcParams:{field:"May_FC"}, mutateLink:"Total" , mutator:function(value, data){
+
+if (value === undefined){
+  return  0 ;
+} else {
+  return Number(value);
+
+}     
+
+},formatter:function(cell, formatterParams, onRendered){
+              var May_FC = cell.getValue();
+
+                  return "$" + May_FC; //return the contents of the cell;
+                 
+              }},
+          { title: "Jun_FC", field: "Jun_FC", width: 100, editor:"number", editable: true, bottomCalc: customTreeSum, bottomCalcParams:{field:"Jun_FC"}, mutateLink:"Total" , mutator:function(value, data){
+
+if (value === undefined){
+  return  0 ;
+} else {
+  return Number(value);
+
+}     
+
+},formatter:function(cell, formatterParams, onRendered){
+              var Jun_FC = cell.getValue();
+
+                  return "$" + Jun_FC; //return the contents of the cell;
+                 
+              }},
+          { title: "Jul_FC", field: "Jul_FC", width: 100, editor:"number", editable: true, bottomCalc: customTreeSum, bottomCalcParams:{field:"Jul_FC"}, mutateLink:"Total" , mutator:function(value, data){
+
+if (value === undefined){
+  return  0 ;
+} else {
+  return Number(value);
+
+}     
+
+},formatter:function(cell, formatterParams, onRendered){
+              var Jul_FC = cell.getValue();
+
+                  return "$" + Jul_FC; //return the contents of the cell;
+                 
+              }},
+          { title: "Aug_FC", field: "Aug_FC", width: 100, editor:"number", editable: true, bottomCalc: customTreeSum, bottomCalcParams:{field:"Aug_FC"}, mutateLink:"Total" , mutator:function(value, data){
+
+if (value === undefined){
+  return  0 ;
+} else {
+  return Number(value);
+
+}     
+
+},formatter:function(cell, formatterParams, onRendered){
+              var Aug_FC = cell.getValue();
+
+                  return "$" + Aug_FC; //return the contents of the cell;
+                 
+              }},
+          { title: "Sep_FC", field: "Sep_FC", width: 100, editor:"number", editable: true, bottomCalc: customTreeSum, bottomCalcParams:{field:"Sep_FC"}, mutateLink:"Total" , mutator:function(value, data){
+
+if (value === undefined){
+  return  0 ;
+} else {
+  return Number(value);
+
+}     
+
+},formatter:function(cell, formatterParams, onRendered){
+              var Sep_FC = cell.getValue();
+
+                  return "$" + Sep_FC; //return the contents of the cell;
+                 
+              }},
+          { title: "Oct_FC", field: "Oct_FC", width: 100, editor:"number", editable: true, bottomCalc: customTreeSum, bottomCalcParams:{field:"Oct_FC"}, mutateLink:"Total" , mutator:function(value, data){
+
+if (value === undefined){
+  return  0 ;
+} else {
+  return Number(value);
+
+}     
+
+},formatter:function(cell, formatterParams, onRendered){
+              var Oct_FC = cell.getValue();
+
+                  return "$" + Oct_FC; //return the contents of the cell;
+                 
+              }},
+          { title: "Nov_FC", field: "Nov_FC", width: 100, editor:"number", editable: true, bottomCalc: customTreeSum, bottomCalcParams:{field:"Nov_FC"}, mutateLink:"Total" , mutator:function(value, data){
+
+if (value === undefined){
+  return  0 ;
+} else {
+  return Number(value);
+
+}     
+
+},formatter:function(cell, formatterParams, onRendered){
+              var Nov_FC = cell.getValue();
+
+                  return "$" + Nov_FC; //return the contents of the cell;
+                 
+              }},
+          { title: "Dec_FC", field: "Dec_FC", width: 100, editor:"number", editable: true , bottomCalc: customTreeSum, bottomCalcParams:{field:"Dec_FC"}, mutateLink:"Total", mutator:function(value, data){
+
+if (value === undefined){
+  return  0 ;
+} else {
+  return Number(value);
+
+}     
+
+},formatter:function(cell, formatterParams, onRendered){
+              var Dec_FC = cell.getValue();
+
+                  return "$" + Dec_FC; //return the contents of the cell;
+                 
+              }},
+          { title: "Total", field: "Total", width: 100, editor:"number", editable: false, bottomCalc: customTreeSum, bottomCalcParams:{field:"Total"},mutateLink:"final_remaining", mutator:function(value, data){
+             
+
+
+
+  return +data.Jan_FC + +data.Feb_FC + +data.Mar_FC + +data.Apr_FC + +data.May_FC + +data.Jun_FC + +data.Jul_FC + +data.Aug_FC + +data.Sep_FC + +data.Oct_FC + +data.Nov_FC + +data.Dec_FC;  
+
+
+
+},formatter:function(cell, formatterParams, onRendered){
+              var Total = cell.getValue();
+
+                  return "$" + Total; //return the contents of the cell;
+                 
+              }},
+       
+          
+{ title: "Final Remaining", field: "final_remaining", width: 100, editor:"number", editable: false, bottomCalc: customTreeSum, bottomCalcParams:{field:"final_remaining"}, mutator:function(value, data){
+             
+
+
+
+             return +data.Allocated_budget - +data.Total;  
+     
+     
+     
+},formatter:function(cell, formatterParams, onRendered){
+              var final_remaining = cell.getValue();
+
+                  return "$" + final_remaining; //return the contents of the cell;
+                 
+              }},                
+          
+          
+             
+          
+          
+          { title: "Fin/Log Notes", field: "Fin_Notes", width: 200,  editable: true },
+
+     
+     
+      ],
+
+  });
+
+
+
+  table.on("cellEdited", function(cell){
+
+      let roow = cell.getRow();
+      //The column key field name
+      var field = cell.getField();
+      console.log("Field Name:", field);
+
+  var cellValue = cell.getValue();
+
+    // The object containing the fields you want to update:
+   const theChangeObject = {
+
+          };
+
+    theChangeObject[field] = cellValue;
+
+
+    console.log(theChangeObject);
+
+
+// The id value you want to match inside the object:
+const targetId = roow.getIndex(); // Change this to the id you're targeting
+
+
+
+// Reference to the "tasks" array (or object)
+const tasksRef = firebase.database().ref("tasks");
+
+// Query for the record where the internal key "id" equals the targetId
+tasksRef.orderByChild("id").equalTo(targetId).once("value")
+.then(snapshot => {
+if (snapshot.exists()) {
+snapshot.forEach(childSnapshot => {
+  // Update each matching record (there should typically be one)
+  childSnapshot.ref.update(theChangeObject)
+    .then(() => {
+      console.log("Update successful for id:", targetId);
+    })
+    .catch(error => {
+      console.error("Error updating task:", error);
+    });
+});
+} else {
+console.log("No matching record found for id:", targetId);
+}
+})
+.catch(error => {
+console.error("Error querying tasks:", error);
+});
+
+
+});
+
+
+
+
+
+
+// Load data from Firebase and update table
+  dbRef.on('value', (snapshot) => {
+      let firebaseData = snapshot.val();
+      if (firebaseData) {
+          // Convert Firebase object to array and transform to nested structure
+          const dataArray = Object.keys(firebaseData).map(key => ({
+              id: key, // Keep Firebase key as 'id' for updates/deletes
+              ...firebaseData[key]
+          }));
+
+          nestedTableData = transformDataToNested(dataArray);
+          console.log("Nested Table Data after transformation:", nestedTableData);
+
+          table.replaceData(nestedTableData);
+      } else {
+          table.replaceData([]);
+      }
+  }, (errorObject) => {
+      console.error("Data read failed: " + errorObject.name);
+  });
+     
+// Filter modal logic
+        document.getElementById("apply-filters").addEventListener("click", function() {
+            var filters = [];
+            var wbsValue = document.getElementById("wbs-filter").value;
+            if (wbsValue) {
+                filters.push({field:"WBS_Code", type:"like", value:wbsValue});
+            }
+
+            var taskValue = document.getElementById("task-filter").value;
+            if (taskValue) {
+                filters.push({field:"text", type:"like", value:taskValue});
+            }
+
+            var priorityValue = document.getElementById("priority-filter").value;
+            if (priorityValue) {
+                filters.push({field:"priority", type:"=", value:priorityValue});
+            }
+
+            var statusValue = document.getElementById("status-filter").value;
+            if (statusValue) {
+                filters.push({field:"status", type:"=", value:statusValue});
+            }
+
+            var finCodeValue = document.getElementById("fin-code-filter").value;
+            if (finCodeValue) {
+                filters.push({field:"Fin_Code", type:"like", value:finCodeValue});
+            }
+
+            var itemNameValue = document.getElementById("item-name-filter").value;
+            if (itemNameValue) {
+                filters.push({field:"Item_Name", type:"like", value:itemNameValue});
+            }
+
+            var prStatusValue = document.getElementById("pr-status-filter").value;
+            if (prStatusValue) {
+                filters.push({field:"PR_Status", type:"=", value:prStatusValue});
+            }
+
+            var poStatusValue = document.getElementById("po-status-filter").value;
+            if (poStatusValue) {
+                filters.push({field:"PO_Status", type:"=", value:poStatusValue});
+            }
+
+            table.setFilter(filters);
+            $('#filter-modal').modal('hide');
+        });
+
+        document.getElementById("clear-filters").addEventListener("click", function() {
+            document.getElementById("filter-form").reset();
+            table.clearFilter();
+        });
+
+        // Make the modal draggable
+        var modal = document.getElementById('filter-modal');
+        var modalDialog = modal.querySelector('.modal-dialog');
+        var modalHeader = modal.querySelector('.modal-header');
+        var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+
+        modalHeader.onmousedown = dragMouseDown;
+
+        function dragMouseDown(e) {
+            e = e || window.event;
+            e.preventDefault();
+            // get the mouse cursor position at startup:
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            document.onmouseup = closeDragElement;
+            // call a function whenever the cursor moves:
+            document.onmousemove = elementDrag;
+        }
+
+        function elementDrag(e) {
+            e = e || window.event;
+            e.preventDefault();
+            // calculate the new cursor position:
+            pos1 = pos3 - e.clientX;
+            pos2 = pos4 - e.clientY;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            // set the element's new position:
+            modalDialog.style.top = (modalDialog.offsetTop - pos2) + "px";
+            modalDialog.style.left = (modalDialog.offsetLeft - pos1) + "px";
+        }
+
+        function closeDragElement() {
+            // stop moving when mouse button is released:
+            document.onmouseup = null;
+            document.onmousemove = null;
+        }
+</script>
+
+
+
+<footer class="cm-footer" style = "height:1px">
+
+  
+</footer>
+
+
+
+
+<!-- The Clearmin Dashboard JavaScript Libraries -->
+<script src="Sources/Clearmin_Dashboard_All.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+
+</body>      
+</html>
