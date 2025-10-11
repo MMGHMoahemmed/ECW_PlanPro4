@@ -1,0 +1,37 @@
+.tabulator-row .tabulator-cell .tabulator-data-tree-control {
+    display: none;
+}
+
+.task-cell-content {
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+}
+
+.custom-tree-toggle {
+    background: none;
+    border: none;
+    padding: 0 5px 0 0;
+    margin: 0;
+    cursor: pointer;
+    font-size: 0.9em;
+    color: #666;
+    line-height: 1;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    flex-shrink: 0;
+}
+
+.task-cell-text {
+    flex-grow: 1;
+}
+
+.custom-tree-toggle.expanded::before {
+    content: '▼';
+}
+
+.custom-tree-toggle.collapsed::before {
+    content: '▶';
+}
