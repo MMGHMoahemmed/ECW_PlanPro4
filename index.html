@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <!-- The Clearmin Dashboard CSS Libraries -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
@@ -37,6 +37,7 @@
     <!-- Add Firebase products that you want to use -->
     <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/6.0.2/firebase-database.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
     <script>
     firebaseConfigInfo();
     </script>
@@ -47,7 +48,7 @@
     
     margin-left: 50px;
 
-} 
+}
 
 
 
@@ -155,6 +156,10 @@
         
                          
        
+                <div class="pull-right" style="border-left:1px solid #e5e5e5"><a title="Export All to Excel" class="btn btn-default btn-light" onclick="exportToExcel('all')"><i class="fa fa-table"></i></a></div>
+                <div class="pull-right" style="border-left:1px solid #e5e5e5"><a title="Export Visible to Excel" class="btn btn-default btn-light" onclick="exportToExcel('visible')"><i class="fa fa-filter"></i></a></div>
+                <div class="pull-right" style="border-left:1px solid #e5e5e5"><a title="Share Visible Tasks" class="btn btn-default btn-light" onclick="shareVisibleTasks()"><i class="fa fa-share-alt"></i></a></div>
+                <div class="pull-right" style="border-left:1px solid #e5e5e5"><a title="Copy Visible Tasks" class="btn btn-default btn-light" onclick="copyVisibleTasksToClipboard()"><i class="fa fa-copy"></i></a></div>
                 <div class="pull-right" style="border-left:1px solid #e5e5e5"><a title="Save the order" class="btn btn-default btn-light btn-danger md-save" onclick="otherFunctions.saveganttorder()"></a></div>
                 <div class="pull-right" style="border-left:1px solid #e5e5e5"><a title="Actions" class="btn btn-default btn-light md-tune" data-bs-toggle="offcanvas" href="#actions" role="button" aria-controls="offcanvasRight"></a></div>
                 <div class="pull-right" style="border-left:1px solid #e5e5e5"><a title="Filter Content" class="btn btn-default btn-light md-filter-list" data-bs-toggle="offcanvas" href="#filters" role="button" aria-controls="offcanvasRight"></a></div>
@@ -187,7 +192,8 @@
                         <th scope="col">#</th>
                         <th scope="col">Action</th>
                         <th scope="col">Options</th>
-                        <th scope="col"> </th>
+                        <th scope="col"> 
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -352,7 +358,8 @@
                     <tbody>
                       <tr>
                         <th scope="row">1</th>
-                        <td>Change Page Zoom </td>
+                        <td>Change Page Zoom 
+                        </td>
                         <td colspan="2"><div class="btn-group" role="group">
                             <button type="button" class="btn btn-default" onclick="layoutFunctions.maximizeScreen()"><i class="fa fa-fw fa-plus-circle [&#xf055;]"></i></button>
                             <button type="button" class="btn btn-default" onclick="layoutFunctions.normalScreen()"><i class="fa fa-fw fa-dot-circle-o [&#xf192;]"></i></button>
@@ -361,7 +368,8 @@
                       </tr>
                       <tr>
                         <th scope="row">2</th>
-                        <td>Full Screen </td>
+                        <td>Full Screen 
+                        </td>
                         <td colspan="2"><div class="btn-group" role="group">
                             <button type="button" class="btn btn-default" onclick="layoutFunctions.openfullscreen()"><i class="btn fa fa-fw md-fullscreen"></i></button>
                             <button type="button" class="btn btn-default" onclick="layoutFunctions.closefullscreen()"><i class="btn fa fa-fw md-fullscreen-exit"></i></button>
@@ -571,7 +579,6 @@
 
 
 
-
     
 <script>
 //The timeline scale specification
@@ -595,6 +602,7 @@ statusChangeRowsColor ();
 
 
 
+
 gantt.init("gantt_here");
     
             
@@ -609,6 +617,128 @@ otherGanttFuncions();
 //gantt.plugins({ quick_info: true}); 
 
 
+function exportToExcel(type) {
+    let data = [];
+    const columns = gantt.getGridColumns();
+    const columnNames = columns.map(c => c.name);
+    const columnLabels = columns.map(c => c.label);
+
+    const tasksToExport = [];
+    if (type === 'all') {
+        gantt.eachTask(function(task) {
+            tasksToExport.push(task);
+        });
+    } else { // 'visible' or 'filtered'
+        gantt.eachTask(function(task) {
+            if (gantt.isTaskVisible(task.id)) {
+                tasksToExport.push(task);
+            }
+        });
+    }
+
+    // Add header row with labels
+    data.push(columnLabels);
+
+    // Add task data
+    tasksToExport.forEach(task => {
+        const row = [];
+        columnNames.forEach(colName => {
+            let value = task[colName];
+            if (value instanceof Date) {
+                value = gantt.templates.grid_date_format(value);
+            }
+            if (colName === 'progress') {
+                value = Math.round(value * 100) + '%';
+            }
+            row.push(value !== undefined && value !== null ? value : '');
+        });
+        data.push(row);
+    });
+
+
+    const worksheet = XLSX.utils.aoa_to_sheet(data);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "GanttData");
+
+    const fileName = `GanttExport_${type}_${new Date().toISOString().slice(0,10)}.xlsx`;
+    XLSX.writeFile(workbook, fileName);
+}
+
+function shareVisibleTasks() {
+    const tasksToShare = [];
+    gantt.eachTask(function(task) {
+        if (gantt.isTaskVisible(task.id)) {
+            tasksToShare.push({
+                wbs_code: task.wbs_code || '',
+                text: task.text || '',
+                status: task.status || '',
+                start_date: task.start_date ? gantt.templates.grid_date_format(task.start_date) : '',
+                end_date: task.end_date ? gantt.templates.grid_date_format(task.end_date) : '',
+                worker: task.workers || '',
+                notes: task.notes || ''
+            });
+        }
+    });
+
+    let shareText = 'Visible Tasks:\n\n';
+    tasksToShare.forEach(task => {
+        shareText += `WBS: ${task.wbs_code}\n`;
+        shareText += `Task: ${task.text}\n`;
+        shareText += `Status: ${task.status}\n`;
+        shareText += `Start Date: ${task.start_date}\n`;
+        shareText += `End Date: ${task.end_date}\n`;
+        shareText += `Worker: ${task.workers}\n`;
+        shareText += `Notes: ${task.notes}\n\n`;
+    });
+
+    if (navigator.share) {
+        navigator.share({
+            title: 'Gantt Chart Visible Tasks',
+            text: shareText,
+        })
+        .then(() => console.log('Successful share'))
+        .catch((error) => console.log('Error sharing', error));
+    } else {
+        alert('Web Share API is not supported in your browser.');
+    }
+}
+
+function copyVisibleTasksToClipboard() {
+    const tasksToCopy = [];
+    gantt.eachTask(function(task) {
+        if (gantt.isTaskVisible(task.id)) {
+            tasksToCopy.push({
+                wbs_code: task.WBS_Code || '',
+                text: task.text || '',
+                status: task.status || '',
+                start_date: task.start_date ? gantt.templates.grid_date_format(task.start_date) : '',
+                end_date: task.end_date ? gantt.templates.grid_date_format(task.end_date) : '',
+                worker: task.workers || '',
+                notes: task.notes || ''
+            });
+        }
+    });
+
+    let copyText = 'Visible Tasks:\n\n';
+    tasksToCopy.forEach(task => {
+        copyText += `WBS: ${task.wbs_code}\n`;
+        copyText += `Task: ${task.text}\n`;
+        copyText += `Status: ${task.status}\n`;
+        copyText += `Start Date: ${task.start_date}\n`;
+        copyText += `End Date: ${task.end_date}\n`;
+        copyText += `Worker: ${task.worker}\n`;
+        copyText += `Notes: ${task.notes}\n\n`;
+    });
+
+    navigator.clipboard.writeText(copyText)
+        .then(() => {
+            alert('Visible tasks copied to clipboard!');
+        })
+        .catch(err => {
+            console.error('Error copying text: ', err);
+            alert('Failed to copy tasks to clipboard.');
+        });
+}
 
 
 </script>
@@ -621,6 +751,7 @@ otherGanttFuncions();
 <script src="Sources/Clearmin_Dashboard_All.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     
+
 
 
 
