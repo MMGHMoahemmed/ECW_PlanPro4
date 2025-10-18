@@ -253,10 +253,10 @@ var colmunsdeclaration = {
         return task.sort_order
         }, },
 
-    task: task = { name: "text", tree: true, width: 350, resize: true, editor: textEditor },
+    task: task = { name: "text", tree: true, width: 650, resize: true, editor: textEditor },
 
 
-    type: type = { name: "type", tree: true, width: 200, resize: true, editor: typeEditor, hide : true},
+    type: type = { name: "type", label: "Type", width: 200, resize: true, editor: typeEditor},
 
 
     priority: priority = { name: "priority", label: "Priority", width: 40, editor: priorityEditor, resize: true, hide: false },
@@ -907,7 +907,8 @@ gantt.config.columns = [
     colmunsdeclaration.status,
     colmunsdeclaration.startdate,
     colmunsdeclaration.enddate,
-    colmunsdeclaration.duration,
+    //colmunsdeclaration.duration,
+    colmunsdeclaration.workers,
     colmunsdeclaration.publiccomments,
     colmunsdeclaration.privatecomments,
     colmunsdeclaration.notes,
